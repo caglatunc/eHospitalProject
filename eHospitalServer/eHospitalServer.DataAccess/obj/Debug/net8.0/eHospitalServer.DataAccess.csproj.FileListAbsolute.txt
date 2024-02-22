@@ -1,0 +1,17 @@
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\bin\Debug\net8.0\eHospitalServer.DataAccess.deps.json
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\bin\Debug\net8.0\eHospitalServer.DataAccess.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\bin\Debug\net8.0\eHospitalServer.DataAccess.pdb
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.AssemblyInfoInputs.cache
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.AssemblyInfo.cs
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.csproj.CoreCompileInputs.cache
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\refint\eHospitalServer.DataAccess.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.pdb
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\ref\eHospitalServer.DataAccess.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\bin\Debug\net8.0\eHospitalServer.DataAccess.runtimeconfig.json
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\bin\Debug\net8.0\eHospitalServer.Entities.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\bin\Debug\net8.0\eHospitalServer.Entities.pdb
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.csproj.AssemblyReference.cache
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.csproj.CopyComplete
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.genruntimeconfig.cache
