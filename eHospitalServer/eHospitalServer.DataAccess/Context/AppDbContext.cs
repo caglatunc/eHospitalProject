@@ -14,7 +14,12 @@ internal sealed class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>,
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(User).Assembly);
+
+        builder.Ignore<IdentityUserLogin<Guid>>();
+        builder.Ignore<IdentityUserClaim<Guid>>();
+        builder.Ignore<IdentityUserToken<Guid>>();
+        builder.Ignore<IdentityUserRole<Guid>>();
+        builder.Ignore<IdentityRoleClaim<Guid>>();
     }
 }

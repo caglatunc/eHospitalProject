@@ -12,3 +12,4 @@ C:\eHospitalProject\EHospitalServer\eHospitalServer.Entities\obj\Debug\net8.0\re
 C:\eHospitalProject\EHospitalServer\eHospitalServer.Entities\obj\Debug\net8.0\eHospitalServer.Entities.pdb
 C:\eHospitalProject\EHospitalServer\eHospitalServer.Entities\obj\Debug\net8.0\eHospitalServer.Entities.genruntimeconfig.cache
 C:\eHospitalProject\EHospitalServer\eHospitalServer.Entities\obj\Debug\net8.0\ref\eHospitalServer.Entities.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Entities\obj\Debug\net8.0\eHospitalServer.Entities.sourcelink.json
