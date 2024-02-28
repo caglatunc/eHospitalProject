@@ -1,0 +1,12 @@
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\bin\Debug\net8.0\eHospitalServer.Core.deps.json
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\bin\Debug\net8.0\eHospitalServer.Core.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\bin\Debug\net8.0\eHospitalServer.Core.pdb
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\eHospitalServer.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\eHospitalServer.Core.AssemblyInfoInputs.cache
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\eHospitalServer.Core.AssemblyInfo.cs
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\eHospitalServer.Core.csproj.CoreCompileInputs.cache
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\eHospitalServer.Core.sourcelink.json
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\eHospitalServer.Core.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\refint\eHospitalServer.Core.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\eHospitalServer.Core.pdb
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\ref\eHospitalServer.Core.dll

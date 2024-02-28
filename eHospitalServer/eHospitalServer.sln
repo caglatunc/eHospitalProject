@@ -5,9 +5,13 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHospitalServer.Entities", "eHospitalServer.Entities\eHospitalServer.Entities.csproj", "{58DC1312-C351-4F1E-8BC5-76C7A3EF1383}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eHospitalServer.DataAccess", "eHospitalServer.DataAccess\eHospitalServer.DataAccess.csproj", "{91DFE563-40C6-4428-A005-EEA4C8505D2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHospitalServer.DataAccess", "eHospitalServer.DataAccess\eHospitalServer.DataAccess.csproj", "{91DFE563-40C6-4428-A005-EEA4C8505D2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eHospitalServer.WebAPI", "eHospitalServer.WebAPI\eHospitalServer.WebAPI.csproj", "{54F53CBD-D167-41BF-9C9B-EEC1FC2594A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eHospitalServer.WebAPI", "eHospitalServer.WebAPI\eHospitalServer.WebAPI.csproj", "{54F53CBD-D167-41BF-9C9B-EEC1FC2594A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eHospitalServer.Business", "eHospitalServer.Business\eHospitalServer.Business.csproj", "{014C7EDE-2E1D-4761-9CA0-F06BF9850699}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eHospitalServer.Core", "eHospitalServer.Core\eHospitalServer.Core.csproj", "{D94EBE4B-D949-4D9A-9CC4-2C8C39B62C5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{54F53CBD-D167-41BF-9C9B-EEC1FC2594A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54F53CBD-D167-41BF-9C9B-EEC1FC2594A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54F53CBD-D167-41BF-9C9B-EEC1FC2594A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{014C7EDE-2E1D-4761-9CA0-F06BF9850699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{014C7EDE-2E1D-4761-9CA0-F06BF9850699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{014C7EDE-2E1D-4761-9CA0-F06BF9850699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{014C7EDE-2E1D-4761-9CA0-F06BF9850699}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D94EBE4B-D949-4D9A-9CC4-2C8C39B62C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D94EBE4B-D949-4D9A-9CC4-2C8C39B62C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D94EBE4B-D949-4D9A-9CC4-2C8C39B62C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D94EBE4B-D949-4D9A-9CC4-2C8C39B62C5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

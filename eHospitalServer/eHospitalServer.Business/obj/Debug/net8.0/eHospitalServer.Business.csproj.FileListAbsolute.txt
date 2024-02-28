@@ -1,0 +1,16 @@
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\bin\Debug\net8.0\eHospitalServer.Business.deps.json
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\bin\Debug\net8.0\eHospitalServer.Business.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\bin\Debug\net8.0\eHospitalServer.Business.pdb
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\bin\Debug\net8.0\eHospitalServer.Entities.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\bin\Debug\net8.0\eHospitalServer.Entities.pdb
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\obj\Debug\net8.0\eHospitalServer.Business.csproj.AssemblyReference.cache
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\obj\Debug\net8.0\eHospitalServer.Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\obj\Debug\net8.0\eHospitalServer.Business.AssemblyInfoInputs.cache
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\obj\Debug\net8.0\eHospitalServer.Business.AssemblyInfo.cs
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\obj\Debug\net8.0\eHospitalServer.Business.csproj.CoreCompileInputs.cache
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\obj\Debug\net8.0\eHospitalServer.Business.sourcelink.json
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\obj\Debug\net8.0\eHospita.E660D373.Up2Date
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\obj\Debug\net8.0\eHospitalServer.Business.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\obj\Debug\net8.0\refint\eHospitalServer.Business.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\obj\Debug\net8.0\eHospitalServer.Business.pdb
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Business\obj\Debug\net8.0\ref\eHospitalServer.Business.dll

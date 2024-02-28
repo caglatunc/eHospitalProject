@@ -13,6 +13,8 @@ C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\bin\Debug\net8.0\
 C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\bin\Debug\net8.0\eHospitalServer.Entities.dll
 C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\bin\Debug\net8.0\eHospitalServer.Entities.pdb
 C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.csproj.AssemblyReference.cache
-C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.csproj.CopyComplete
 C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.genruntimeconfig.cache
 C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospitalServer.DataAccess.sourcelink.json
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\bin\Debug\net8.0\eHospitalServer.Business.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\bin\Debug\net8.0\eHospitalServer.Business.pdb
+C:\eHospitalProject\eHospitalServer\eHospitalServer.DataAccess\obj\Debug\net8.0\eHospita.661A9C98.Up2Date
