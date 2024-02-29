@@ -1,11 +1,13 @@
 ﻿using eHospitalServer.Business.Services;
 using eHospitalServer.DataAccess.Context;
+using eHospitalServer.DataAccess.Options;
 using eHospitalServer.DataAccess.Services;
 using eHospitalServer.Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Scrutor;
 using System.Reflection;
@@ -39,21 +41,13 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 
-        services.AddAuthentication().AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new()
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateIssuerSigningKey = true,
-                ValidateLifetime = true,
-                ValidIssuer = "Cagla Tunc Savas",
-                ValidAudience = "School Application",
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my secret key my secret key my secret key 1234...my secret key my secret key my secret key 1234..."))
-            };
-        });
+        services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
+        services.ConfigureOptions<JwtTokenOptionsSetup>();
+        
+        services.AddAuthentication().AddJwtBearer();
+        services.AddAuthorizationBuilder();
 
-        services.AddAuthorization();
+       services.AddScoped<JwtProvider>();
 
         // services.AddScoped<IAuthService, AuthService>();
         services.Scan(action =>
@@ -63,11 +57,10 @@ public static class DependencyInjection
                 .AddClasses(publicOnly: false)
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsMatchingInterface()
+                .AsImplementedInterfaces()
                 .WithScopedLifetime();
         });
 
         return services;
-
-       
     }
 }

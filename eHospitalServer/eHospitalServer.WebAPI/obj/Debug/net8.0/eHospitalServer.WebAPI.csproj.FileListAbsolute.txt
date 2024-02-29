@@ -3,7 +3,6 @@ C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\eHos
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\eHospitalServer.WebAPI.AssemblyInfoInputs.cache
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\eHospitalServer.WebAPI.AssemblyInfo.cs
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\eHospitalServer.WebAPI.csproj.CoreCompileInputs.cache
-C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\eHospitalServer.WebAPI.MvcApplicationPartsAssemblyInfo.cs
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\eHospitalServer.WebAPI.MvcApplicationPartsAssemblyInfo.cache
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\appsettings.Development.json
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\appsettings.json
@@ -128,3 +127,4 @@ C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\Micr
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\Scrutor.dll
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\eHospitalServer.WebAPI.MvcApplicationPartsAssemblyInfo.cs

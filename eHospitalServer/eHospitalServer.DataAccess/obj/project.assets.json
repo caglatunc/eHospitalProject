@@ -3143,7 +3143,6 @@
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.2",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.2",
       "Scrutor >= 4.2.2",
-      "System.IdentityModel.Tokens.Jwt >= 7.3.1",
       "eHospitalServer.Business >= 1.0.0",
       "eHospitalServer.Entities >= 1.0.0"
     ]
@@ -3233,10 +3232,6 @@
           "Scrutor": {
             "target": "Package",
             "version": "[4.2.2, )"
-          },
-          "System.IdentityModel.Tokens.Jwt": {
-            "target": "Package",
-            "version": "[7.3.1, )"
           }
         },
         "imports": [

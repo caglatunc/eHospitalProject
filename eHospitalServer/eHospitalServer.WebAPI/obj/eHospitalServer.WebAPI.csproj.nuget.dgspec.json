@@ -156,10 +156,6 @@
             "Scrutor": {
               "target": "Package",
               "version": "[4.2.2, )"
-            },
-            "System.IdentityModel.Tokens.Jwt": {
-              "target": "Package",
-              "version": "[7.3.1, )"
             }
           },
           "imports": [

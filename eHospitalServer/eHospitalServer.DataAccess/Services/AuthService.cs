@@ -4,14 +4,29 @@ using eHospitalServer.Entities.DTOs;
 using eHospitalServer.Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 
 namespace eHospitalServer.DataAccess.Services;
 internal class AuthService(
     UserManager<User> userManager,
-    SignInManager<User> signInManager) : IAuthService
+    SignInManager<User> signInManager,
+    JwtProvider jwtProvider) : IAuthService
 {
+    public async Task<Result<LoginResponseDto>> GetTokenByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken)
+    {
+        User? user = await userManager.Users.Where(p=>p.RefreshToken==refreshToken).FirstOrDefaultAsync(cancellationToken);
+
+        if (user is null)
+        {
+            return (500, "Refresh Token unavailable.");
+        }
+
+        var loginResponse = await jwtProvider.CreateToken(user);
+
+        return loginResponse;
+
+    }
+
     public async Task<Result<LoginResponseDto>> LoginAsync(LoginRequestDto request, CancellationToken cancellationToken)
     {
         string emailOrUserName = request.EmailOrUserName.ToUpper();
@@ -48,9 +63,11 @@ internal class AuthService(
             return (500, "Your password is wrong");
         }
 
-        return new LoginResponseDto(
-            "token",
-            "refreshToken",
-            DateTime.Now.AddDays(1));
+        var loginResponse= await jwtProvider.CreateToken(user);
+
+        return loginResponse;
     }
+
+ 
+
 }

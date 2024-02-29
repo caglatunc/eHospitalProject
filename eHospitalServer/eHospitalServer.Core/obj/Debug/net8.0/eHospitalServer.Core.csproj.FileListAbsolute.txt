@@ -10,3 +10,7 @@ C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\eHospi
 C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\refint\eHospitalServer.Core.dll
 C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\eHospitalServer.Core.pdb
 C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\ref\eHospitalServer.Core.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\bin\Debug\net8.0\eHospitalServer.Entities.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\bin\Debug\net8.0\eHospitalServer.Entities.pdb
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\eHospitalServer.Core.csproj.AssemblyReference.cache
+C:\eHospitalProject\eHospitalServer\eHospitalServer.Core\obj\Debug\net8.0\eHospita.AF435784.Up2Date
