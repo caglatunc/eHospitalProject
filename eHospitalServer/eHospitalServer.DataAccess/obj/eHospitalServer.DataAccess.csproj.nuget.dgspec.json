@@ -125,7 +125,7 @@
           "dependencies": {
             "CTS.Result": {
               "target": "Package",
-              "version": "[8.0.2, )"
+              "version": "[8.0.3, )"
             },
             "EntityFrameworkCore.NamingConventions": {
               "target": "Package",
