@@ -128,3 +128,8 @@ C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\Micr
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\Scrutor.dll
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\eHospitalServer.WebAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\AutoMapper.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\GenericEmailService.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\MailKit.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\MimeKit.dll

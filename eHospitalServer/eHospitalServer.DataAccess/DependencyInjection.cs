@@ -2,7 +2,9 @@
 using eHospitalServer.DataAccess.Context;
 using eHospitalServer.DataAccess.Options;
 using eHospitalServer.DataAccess.Services;
+using eHospitalServer.DataAccess.Utilities;
 using eHospitalServer.Entities.Models;
+using GenericEmailService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +22,8 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
         services.AddDbContext<AppDbContext>(options =>
         {
             options.UseNpgsql(configuration.GetConnectionString("PostgreSQL"))
@@ -40,6 +44,10 @@ public static class DependencyInjection
         })
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
+
+        services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+        services.CreateServiceTool();
+
 
         services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
         services.ConfigureOptions<JwtTokenOptionsSetup>();
