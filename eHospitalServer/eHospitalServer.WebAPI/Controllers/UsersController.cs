@@ -16,13 +16,4 @@ public sealed class UsersController(
 
         return StatusCode(response.StatusCode, response);
     }
-
-    [HttpPost]
-    [AllowAnonymous]
-    public async Task<IActionResult> ConfirmEmailAsync(string email, int confirmationCode)
-    {
-        var response = await userService.ConfirmEmailAsync(email, confirmationCode);
-
-        return StatusCode(response.StatusCode, response);
-    }
 }

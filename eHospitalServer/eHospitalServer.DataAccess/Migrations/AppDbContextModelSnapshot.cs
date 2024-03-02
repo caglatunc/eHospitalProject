@@ -160,6 +160,14 @@ namespace eHospitalServer.DataAccess.Migrations
                         .HasColumnType("text")
                         .HasColumnName("password_hash");
 
+                    b.Property<int?>("PasswordResetCode")
+                        .HasColumnType("integer")
+                        .HasColumnName("password_reset_code");
+
+                    b.Property<DateTime>("PasswordResetCodeSendDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("password_reset_code_send_date");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text")
                         .HasColumnName("phone_number");
@@ -194,6 +202,10 @@ namespace eHospitalServer.DataAccess.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_users");
+
+                    b.HasIndex("EmailConfirmCode")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_email_confirm_code");
 
                     b.ToTable("users", (string)null);
                 });

@@ -1,19 +1,13 @@
-﻿using eHospitalServer.Business.Services;
-using eHospitalServer.DataAccess.Context;
+﻿using eHospitalServer.DataAccess.Context;
 using eHospitalServer.DataAccess.Options;
 using eHospitalServer.DataAccess.Services;
-using eHospitalServer.DataAccess.Utilities;
 using eHospitalServer.Entities.Models;
-using GenericEmailService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Scrutor;
 using System.Reflection;
-using System.Text;
 
 namespace eHospitalServer.DataAccess;
 public static class DependencyInjection
@@ -44,10 +38,6 @@ public static class DependencyInjection
         })
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
-
-        services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
-        services.CreateServiceTool();
-
 
         services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
         services.ConfigureOptions<JwtTokenOptionsSetup>();

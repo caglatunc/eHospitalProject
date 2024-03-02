@@ -1,7 +1,32 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\eHospitalProject\\eHospitalServer\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{91DFE563-40C6-4428-A005-EEA4C8505D2E}|eHospitalServer.DataAccess\\eHospitalServer.DataAccess.csproj|c:\\ehospitalproject\\ehospitalserver\\ehospitalserver.dataaccess\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{91DFE563-40C6-4428-A005-EEA4C8505D2E}|eHospitalServer.DataAccess\\eHospitalServer.DataAccess.csproj|solutionrelative:ehospitalserver.dataaccess\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{91DFE563-40C6-4428-A005-EEA4C8505D2E}|eHospitalServer.DataAccess\\eHospitalServer.DataAccess.csproj|c:\\ehospitalproject\\ehospitalserver\\ehospitalserver.dataaccess\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{91DFE563-40C6-4428-A005-EEA4C8505D2E}|eHospitalServer.DataAccess\\eHospitalServer.DataAccess.csproj|solutionrelative:ehospitalserver.dataaccess\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{54F53CBD-D167-41BF-9C9B-EEC1FC2594A8}|eHospitalServer.WebAPI\\eHospitalServer.WebAPI.csproj|c:\\ehospitalproject\\ehospitalserver\\ehospitalserver.webapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{54F53CBD-D167-41BF-9C9B-EEC1FC2594A8}|eHospitalServer.WebAPI\\eHospitalServer.WebAPI.csproj|solutionrelative:ehospitalserver.webapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{014C7EDE-2E1D-4761-9CA0-F06BF9850699}|eHospitalServer.Business\\eHospitalServer.Business.csproj|c:\\ehospitalproject\\ehospitalserver\\ehospitalserver.business\\services\\mail service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{014C7EDE-2E1D-4761-9CA0-F06BF9850699}|eHospitalServer.Business\\eHospitalServer.Business.csproj|solutionrelative:ehospitalserver.business\\services\\mail service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58DC1312-C351-4F1E-8BC5-76C7A3EF1383}|eHospitalServer.Entities\\eHospitalServer.Entities.csproj|c:\\ehospitalproject\\ehospitalserver\\ehospitalserver.entities\\configurations\\userconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58DC1312-C351-4F1E-8BC5-76C7A3EF1383}|eHospitalServer.Entities\\eHospitalServer.Entities.csproj|solutionrelative:ehospitalserver.entities\\configurations\\userconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{54F53CBD-D167-41BF-9C9B-EEC1FC2594A8}|eHospitalServer.WebAPI\\eHospitalServer.WebAPI.csproj|c:\\ehospitalproject\\ehospitalserver\\ehospitalserver.webapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{54F53CBD-D167-41BF-9C9B-EEC1FC2594A8}|eHospitalServer.WebAPI\\eHospitalServer.WebAPI.csproj|solutionrelative:ehospitalserver.webapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -18,6 +43,84 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Mail Service.cs",
+              "DocumentMoniker": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.Business\\Services\\Mail Service.cs",
+              "RelativeDocumentMoniker": "eHospitalServer.Business\\Services\\Mail Service.cs",
+              "ToolTip": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.Business\\Services\\Mail Service.cs",
+              "RelativeToolTip": "eHospitalServer.Business\\Services\\Mail Service.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-02T19:34:31.735Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.WebAPI\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "eHospitalServer.WebAPI\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.WebAPI\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "eHospitalServer.WebAPI\\Controllers\\AuthController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-02T19:25:57.367Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserConfiguration.cs",
+              "DocumentMoniker": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.Entities\\Configurations\\UserConfiguration.cs",
+              "RelativeDocumentMoniker": "eHospitalServer.Entities\\Configurations\\UserConfiguration.cs",
+              "ToolTip": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.Entities\\Configurations\\UserConfiguration.cs",
+              "RelativeToolTip": "eHospitalServer.Entities\\Configurations\\UserConfiguration.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-02T19:10:10.783Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.DataAccess\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "eHospitalServer.DataAccess\\Services\\UserService.cs",
+              "ToolTip": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.DataAccess\\Services\\UserService.cs",
+              "RelativeToolTip": "eHospitalServer.DataAccess\\Services\\UserService.cs",
+              "ViewState": "AQIAACsAAAAAAAAAAAAAAFoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-02T19:02:44.418Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.WebAPI\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "eHospitalServer.WebAPI\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.WebAPI\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "eHospitalServer.WebAPI\\Controllers\\UsersController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-02T19:02:27.721Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.DataAccess\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "eHospitalServer.DataAccess\\Services\\AuthService.cs",
+              "ToolTip": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.DataAccess\\Services\\AuthService.cs",
+              "RelativeToolTip": "eHospitalServer.DataAccess\\Services\\AuthService.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAqwFsAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-02T18:50:38.855Z",
+              "EditorCaption": ""
             }
           ]
         },

@@ -1,7 +1,23 @@
 [
   {
     "ContainingType": "eHospitalServer.WebAPI.Controllers.AuthController",
-    "Method": "GetTokenByRefreshTokenAsync",
+    "Method": "ConfirmEmail",
+    "RelativePath": "api/Auth/ConfirmEmail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "emailConfirmCode",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eHospitalServer.WebAPI.Controllers.AuthController",
+    "Method": "GetTokenByRefreshToken",
     "RelativePath": "api/Auth/GetTokenByRefreshToken",
     "HttpMethod": "GET",
     "IsController": true,
@@ -32,10 +48,31 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "eHospitalServer.WebAPI.Controllers.UsersController",
-    "Method": "ConfirmEmailAsync",
-    "RelativePath": "api/Users/ConfirmEmail",
+    "ContainingType": "eHospitalServer.WebAPI.Controllers.AuthController",
+    "Method": "ResetPassword",
+    "RelativePath": "api/Auth/ResetPassword",
     "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "passwordResetCode",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "newPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eHospitalServer.WebAPI.Controllers.AuthController",
+    "Method": "SendConfirmEmail",
+    "RelativePath": "api/Auth/SendConfirmEmail",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -43,10 +80,21 @@
         "Name": "email",
         "Type": "System.String",
         "IsRequired": false
-      },
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eHospitalServer.WebAPI.Controllers.AuthController",
+    "Method": "SendPasswordResetCode",
+    "RelativePath": "api/Auth/SendPasswordResetCode",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Name": "confirmationCode",
-        "Type": "System.Int32",
+        "Name": "email",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="CTS.Result" Version="8.0.2" />
+    <PackageReference Include="GenericEmailService" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

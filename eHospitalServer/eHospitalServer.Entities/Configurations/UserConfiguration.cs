@@ -8,6 +8,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-       builder.HasQueryFilter(filter=>!filter.IsDeleted);
+       builder.HasQueryFilter(filter=>!filter.IsDeleted); 
+       builder.HasIndex(p => p.EmailConfirmCode).IsUnique();
     }
 }

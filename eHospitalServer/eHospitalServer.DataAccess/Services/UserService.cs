@@ -46,7 +46,16 @@ public sealed class UserService(
 
         Random random = new();
 
-        user.EmailConfirmCode = random.Next(100000, 999999);
+        bool isEmailConfirmCodeExists = true;
+        while (isEmailConfirmCodeExists)
+        {
+            user.EmailConfirmCode = random.Next(100000, 999999);
+            if (!userManager.Users.Any(p => p.EmailConfirmCode == user.EmailConfirmCode))
+            {
+                isEmailConfirmCodeExists = false;
+            }
+        }
+
         user.EmailConfirmCodeSendDate = DateTime.UtcNow;
 
         if (request.Specialty is not null)
@@ -71,67 +80,11 @@ public sealed class UserService(
 
         if (result.Succeeded)
         {
-            string emailConfirmCode = user.EmailConfirmCode.ToString();
-            string htmlCodeBoxes = string.Join("", emailConfirmCode.Select(c => $"<span class='code-box'>{c}</span>"));
-            string emailBody = $@"
-                <html>
-                <head>
-                <style>
-                  .code-box {{
-                    font-family: 'Arial', sans-serif;
-                    font-size: 24px;
-                    border: 1px solid #000;
-                    display: inline-block;
-                    width: 35px;
-                    height: 35px;
-                    margin: 5px;
-                    line-height: 35px;
-                    text-align: center;
-                  }}
-                </style>
-                </head>
-                <body>
-                  <p>Your email confirmation code:</p>
-                  <div>
-                    {htmlCodeBoxes}
-                  </div>
-                  <p>Please note that this code will expire in 5 minutes.</p>
-                </body>
-                </html>";
-
-            string response = await MailService.SendEmailAsync(user.Email ?? "", "eHospital - Email Confirmation", emailBody);
-
             return Result<string>.Succeed("User create is successful");
         }
+
         return Result<string>.Failure(500, result.Errors.Select(s => s.Description).ToList());
     }
-
-    public async Task<Result<string>> ConfirmEmailAsync(string email, int confirmationCode)
-    {
-        var user = await userManager.FindByEmailAsync(email);
-        if (user is null)
-        {
-            return Result<string>.Failure(StatusCodes.Status404NotFound, "User not found.");
-        }
-
-        if (user.EmailConfirmCode != confirmationCode)
-        {
-            return Result<string>.Failure(StatusCodes.Status400BadRequest, "Invalid code.");
-        }
-
-        if (user.EmailConfirmCodeSendDate.AddMinutes(5) < DateTime.UtcNow)
-        {
-            return Result<string>.Failure(StatusCodes.Status400BadRequest, "Code is expired.");
-        }
-
-        user.EmailConfirmed = true;
-        var updateResult = await userManager.UpdateAsync(user);
-        if (!updateResult.Succeeded)
-        {
-            return Result<string>.Failure(StatusCodes.Status500InternalServerError, "An error occurred while confirming email.");
-        }
-
-        return Result<string>.Succeed("Email confirmation is successful.");
-    }
 }
+
 

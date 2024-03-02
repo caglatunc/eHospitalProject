@@ -52,6 +52,10 @@
             "CTS.Result": {
               "target": "Package",
               "version": "[8.0.2, )"
+            },
+            "GenericEmailService": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             }
           },
           "imports": [

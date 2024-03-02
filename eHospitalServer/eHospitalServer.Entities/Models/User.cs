@@ -16,6 +16,8 @@ public sealed class User : IdentityUser<Guid>
     public UserType UserType { get; set; } = UserType.User;
     public int EmailConfirmCode { get; set; }
     public DateTime EmailConfirmCodeSendDate { get; set; }
+    public int? PasswordResetCode { get; set; }
+    public DateTime PasswordResetCodeSendDate { get; set; }
     public string? RefreshToken { get; set; }
     public DateTime? RefreshTokenExpires{ get; set; }
     public Guid? DoctorDetailId { get; set; }

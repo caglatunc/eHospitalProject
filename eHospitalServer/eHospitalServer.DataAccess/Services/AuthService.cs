@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 
+
 namespace eHospitalServer.DataAccess.Services;
 internal class AuthService(
     UserManager<User> userManager,
@@ -14,7 +15,7 @@ internal class AuthService(
 {
     public async Task<Result<LoginResponseDto>> GetTokenByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken)
     {
-        User? user = await userManager.Users.Where(p=>p.RefreshToken==refreshToken).FirstOrDefaultAsync(cancellationToken);
+        User? user = await userManager.Users.Where(p => p.RefreshToken == refreshToken).FirstOrDefaultAsync(cancellationToken);
 
         if (user is null)
         {
@@ -32,7 +33,7 @@ internal class AuthService(
         string emailOrUserName = request.EmailOrUserName.ToUpper();
 
         User? user = await userManager.Users
-            .FirstOrDefaultAsync(p => 
+            .FirstOrDefaultAsync(p =>
             p.NormalizedUserName == emailOrUserName ||
             p.NormalizedEmail == emailOrUserName,
             cancellationToken);
@@ -41,7 +42,7 @@ internal class AuthService(
         {
             return (500, "User not found");
         }
-        
+
         SignInResult signInResult = await signInManager.CheckPasswordSignInAsync(user, request.Password, true);
 
         if (signInResult.IsLockedOut)
@@ -63,11 +64,259 @@ internal class AuthService(
             return (500, "Your password is wrong");
         }
 
-        var loginResponse= await jwtProvider.CreateToken(user,request.RememberMe);
+        var loginResponse = await jwtProvider.CreateToken(user, request.RememberMe);
 
         return loginResponse;
     }
 
- 
+    public async Task<Result<string>> SendConfirmEmailAsync(string email, CancellationToken cancellationToken)
+    {
+        User? user = await userManager.FindByEmailAsync(email);
+        if (user is null)
+        {
+            return Result<string>.Failure(500, "User not found");
+        }
 
-}
+        if (user.EmailConfirmed)
+        {
+            return Result<string>.Failure(500, "User email already confirmed");
+        }
+
+        if (user.EmailConfirmCodeSendDate.AddMinutes(5) < DateTime.UtcNow)
+        {
+            return Result<string>.Failure(500, "Verification mail is send every 5 minutes.");
+        }
+
+        user.EmailConfirmCodeSendDate = DateTime.UtcNow;
+       
+        await userManager.UpdateAsync(user);
+
+        #region Send Email Confirmation
+        string subject = "eHospital - Email Confirmation";
+        string body = CreateConfirmEmailBody(user.EmailConfirmCode.ToString());
+
+       string response = await MailService.SendEmailAsync(user.Email ?? "", subject, body);
+        #endregion
+
+        return Result<string>.Succeed("Confirmation email is sent successfully");
+    }
+    public async Task<Result<string>> ConfirmVerificationEmailAsync(int emailConfirmCode, CancellationToken cancellationToken)
+    {
+        User? user = await userManager.Users.Where(p => p.EmailConfirmCode == emailConfirmCode).FirstOrDefaultAsync(cancellationToken);
+        if (user is null)
+        {
+            return Result<string>.Failure(500, "Email confirm code is not available");
+        }
+
+        if (user.EmailConfirmed)
+        {
+            return Result<string>.Failure(500, "User email already confirmed");
+        }
+
+        user.EmailConfirmed = true;
+        await userManager.UpdateAsync(user);
+
+        return Result<string>.Succeed("Email verification is succeed");
+    }
+    private string CreateConfirmEmailBody(string emailConfirmCode)
+    {
+        string body = @"
+        <!DOCTYPE html>
+        <html lang=""en"">
+        <head>
+            <meta charset=""UTF-8"">
+            <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+            <title>Email Confirmation Code</title>
+            <style>
+                /* Stil özellikleri */
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    padding: 20px;
+                }
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background-color: #fff;
+                    border-radius: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    padding: 20px;
+                    text-align: center;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .confirmation-code {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 20px;
+                    margin-left: 50px;
+                }
+                .digit-container {
+                    display: flex;
+                    width: auto; /* Kutu genişliğini artır */
+                    height: auto;
+                    border: 2px solid #007bff;
+                    border-radius: 10px;
+                    margin-right: 10px;
+                    font-size: 55px;
+                    font-weight: bold;
+                    color: #007bff;
+                    text-align: center;
+                    inherit: text-align;
+                }
+            </style>
+        </head>
+        <body>
+            <div class=""container"">
+                <h2 style=""color: #007bff;"">Email Confirmation Code</h2>
+                <p>Please use the following code to confirm your email:</p>
+                <div class=""confirmation-code"">
+                    <!-- Her bir rakam için ayrı bir kutu oluşturuluyor -->
+                    <div class=""digit-container""> <div style=""padding-right: 20px; padding-left: 20px; ""> " + emailConfirmCode[0] + @" </div></div>
+                    <div class=""digit-container""> <div style=""padding-right: 20px; padding-left: 20px; ""> " + emailConfirmCode[1] + @" </div></div>
+                    <div class=""digit-container""> <div style=""padding-right: 20px; padding-left: 20px; ""> " + emailConfirmCode[2] + @" </div></div>
+                    <div class=""digit-container""> <div style=""padding-right: 20px; padding-left: 20px; ""> " + emailConfirmCode[3] + @" </div></div>
+                    <div class=""digit-container""> <div style=""padding-right: 20px; padding-left: 20px; ""> " + emailConfirmCode[4] + @" </div></div>
+                    <div class=""digit-container""> <div style=""padding-right: 20px; padding-left: 20px; ""> " + emailConfirmCode[5] + @" </div></div>
+                </div>
+                <p style=""margin-top: 20px;"">This code will expire in 10 minutes.</p>
+            </div>
+        </body>
+        </html>
+        ";
+
+        return body;
+    }
+    public async Task<Result<string>> SendPasswordResetCodeAsync(string email, CancellationToken cancellationToken)
+    {
+        var user = await userManager.FindByEmailAsync(email);
+        if (user == null)
+        {
+            return Result<string>.Failure(500, "User not found");
+        }
+
+        Random random = new();
+
+        bool isPasswordResetCodeExists = true;
+        while (isPasswordResetCodeExists)
+        {
+            user.PasswordResetCode = random.Next(100000, 999999);
+            if (userManager.Users.Any(p => p.EmailConfirmCode == user.EmailConfirmCode))
+            {
+                isPasswordResetCodeExists = false;
+            }
+        }
+
+        user.PasswordResetCodeSendDate = DateTime.UtcNow;
+
+        await userManager.UpdateAsync(user);
+
+        #region Send Email Confirmation
+        string subject = "eHospital - Password Reset Code";
+        string body = CreatePasswordResetCodeBody(user.PasswordResetCode.ToString() ?? "");
+
+        string response = await MailService.SendEmailAsync(user.Email ?? "", subject, body);
+        #endregion
+
+        return Result<string>.Succeed("Password reset code is sent successfully");
+    }
+    private string CreatePasswordResetCodeBody(string passwordResetCode)
+    {
+        string body = @"
+        <!DOCTYPE html>
+        <html lang=""en"">
+        <head>
+            <meta charset=""UTF-8"">
+            <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+            <title>Password Reset Code</title>
+            <style>
+                /* Stil özellikleri */
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    padding: 20px;
+                }
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background-color: #fff;
+                    border-radius: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    padding: 20px;
+                    text-align: center;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .confirmation-code {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 20px;
+                    margin-left: 50px;
+                }
+                .digit-container {
+                    display: flex;
+                    width: auto; /* Kutu genişliğini artır */
+                    height: auto;
+                    border: 2px solid #007bff;
+                    border-radius: 10px;
+                    margin-right: 10px;
+                    font-size: 55px;
+                    font-weight: bold;
+                    color: #007bff;
+                    text-align: center;
+                    inherit: text-align;
+                }
+            </style>
+        </head>
+        <body>
+            <div class=""""container"""">
+                <h2 style=""""color: #007bff;"""">Email Confirmation Code</h2>
+                <p>Please use the following code to confirm your email:</p>
+                <div class=""""confirmation-code"""">
+                    <!-- Her bir rakam için ayrı bir kutu oluşturuluyor -->
+                    <div class=""""digit-container""""> <div style=""""padding-right: 20px; padding-left: 20px; """"> "" + emailConfirmCode[0] + @"" </div></div>
+                    <div class=""""digit-container""""> <div style=""""padding-right: 20px; padding-left: 20px; """"> "" + emailConfirmCode[1] + @"" </div></div>
+                    <div class=""""digit-container""""> <div style=""""padding-right: 20px; padding-left: 20px; """"> "" + emailConfirmCode[2] + @"" </div></div>
+                    <div class=""""digit-container""""> <div style=""""padding-right: 20px; padding-left: 20px; """"> "" + emailConfirmCode[3] + @"" </div></div>
+                    <div class=""""digit-container""""> <div style=""""padding-right: 20px; padding-left: 20px; """"> "" + emailConfirmCode[4] + @"" </div></div>
+                    <div class=""""digit-container""""> <div style=""""padding-right: 20px; padding-left: 20px; """"> "" + emailConfirmCode[5] + @"" </div></div>
+                </div>
+                <p style=""""margin-top: 20px;"""">This code will expire in 10 minutes.</p>
+            </div>
+        </body>
+        </html>
+        ";
+        return body;
+    }
+
+    public async Task<Result<string>> ResetPasswordWithCodeAsync(int passwordResetCode,string newPassword, CancellationToken cancellationToken)
+    {
+       User? user = await userManager.Users.Where(p => p.PasswordResetCode == passwordResetCode).FirstOrDefaultAsync(cancellationToken);
+        if (user is null || user.PasswordResetCode != passwordResetCode)
+        {
+            return Result<string>.Failure(500, "Invalid password reset code");
+        }
+
+        if (user.PasswordResetCodeSendDate.AddMinutes(5) < DateTime.UtcNow)
+        {
+            return Result<string>.Failure(500, "Password reset code is expired");
+        }
+
+       var resetToken = await userManager.GeneratePasswordResetTokenAsync(user);
+       var result = await userManager.ResetPasswordAsync(user, resetToken, newPassword);
+
+        if (!result.Succeeded)
+        {
+            return Result<string>.Failure(500, "Password reset is failed");
+        }
+
+        user.PasswordResetCode = null;
+        await userManager.UpdateAsync(user);
+
+        return Result<string>.Succeed("Password reset is succeed");
+    }
+
+
+}      

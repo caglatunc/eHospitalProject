@@ -1316,6 +1316,7 @@
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "CTS.Result": "8.0.2",
+          "GenericEmailService": "8.0.0",
           "eHospitalServer.Entities": "1.0.0"
         },
         "compile": {
