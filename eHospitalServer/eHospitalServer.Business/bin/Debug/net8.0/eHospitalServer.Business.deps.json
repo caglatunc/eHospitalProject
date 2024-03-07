@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "eHospitalServer.Business/1.0.0": {
         "dependencies": {
-          "CTS.Result": "8.0.2",
+          "CTS.Result": "8.0.5",
           "GenericEmailService": "8.0.0",
           "eHospitalServer.Entities": "1.0.0"
         },
@@ -24,11 +24,22 @@
           }
         }
       },
-      "CTS.Result/8.0.2": {
+      "CTS.Result/8.0.5": {
         "runtime": {
           "lib/net8.0/CTS.Result.dll": {
-            "assemblyVersion": "8.0.2.0",
-            "fileVersion": "8.0.2.0"
+            "assemblyVersion": "8.0.5.0",
+            "fileVersion": "8.0.5.0"
+          }
+        }
+      },
+      "EntityFrameworkCore.GenericRepository.Nuget/8.0.1": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "8.0.2"
+        },
+        "runtime": {
+          "lib/net8.0/GenericRepository.dll": {
+            "assemblyVersion": "8.0.1.0",
+            "fileVersion": "8.0.1.0"
           }
         }
       },
@@ -337,6 +348,7 @@
       "System.Text.Encoding.CodePages/7.0.0": {},
       "eHospitalServer.Entities/1.0.0": {
         "dependencies": {
+          "EntityFrameworkCore.GenericRepository.Nuget": "8.0.1",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.2",
           "System.IdentityModel.Tokens.Jwt": "7.3.1"
         },
@@ -359,12 +371,19 @@
       "path": "bouncycastle.cryptography/2.2.1",
       "hashPath": "bouncycastle.cryptography.2.2.1.nupkg.sha512"
     },
-    "CTS.Result/8.0.2": {
+    "CTS.Result/8.0.5": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-EA4MqY6qDpEINNkIxBpzu59qhZ9I18+gTtoMgIW87F06HdPo5oRGCwegrOKTHoVVu54B53PC1Nh0rv8O3EIRMg==",
-      "path": "cts.result/8.0.2",
-      "hashPath": "cts.result.8.0.2.nupkg.sha512"
+      "sha512": "sha512-LdRdxjkRQNjj97tVl9X1L7dIyH3IPEwaOtSYoHku67W4Yfz1TvClkVFoMr5fmyQnx7jvsZWegu5E48jP6PDpBQ==",
+      "path": "cts.result/8.0.5",
+      "hashPath": "cts.result.8.0.5.nupkg.sha512"
+    },
+    "EntityFrameworkCore.GenericRepository.Nuget/8.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-M1itW2bRp28IeWZ1jH4Iw9HhMMNn/j1uvHjjXsQIl0mN2nKwF+pexQRgA65r6tih/SIu659r2T3qUVmxWA9Z2Q==",
+      "path": "entityframeworkcore.genericrepository.nuget/8.0.1",
+      "hashPath": "entityframeworkcore.genericrepository.nuget.8.0.1.nupkg.sha512"
     },
     "GenericEmailService/8.0.0": {
       "type": "package",

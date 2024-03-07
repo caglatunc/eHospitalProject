@@ -13,7 +13,7 @@ public sealed class UserService(
     UserManager<User> userManager,
     IMapper mapper) : IUserService
 {
-   public async Task<Result<string>> CreateUserAsync(CreateUserDto request, CancellationToken cancellationToken)
+    public async Task<Result<string>> CreateUserAsync(CreateUserDto request, CancellationToken cancellationToken)
     {
         if(request.Email is not null)
         {
@@ -78,13 +78,72 @@ public sealed class UserService(
             result = await userManager.CreateAsync(user);
         }
 
-        if (result.Succeeded)
+        if (!result.Succeeded)
         {
-            return Result<string>.Succeed("User create is successful");
+            return Result<string>.Failure(500, result.Errors.Select(s => s.Description).ToList());
         }
 
-        return Result<string>.Failure(500, result.Errors.Select(s => s.Description).ToList());
+        return Result<string>.Succeed("User create is successful");
+    }
+    public async Task<Result<string>> CreatePatientAsync(CreatePatientDto request, CancellationToken cancellationToken)
+    {
+        if (request.Email is not null)
+        {
+            bool isEmailExist = await userManager.Users.AnyAsync(p => p.Email == request.Email);
+            if (isEmailExist)
+            {
+                return Result<string>.Failure(StatusCodes.Status409Conflict, "Email is already exist.");
+            }
+        }
+
+        if (request.IdentityNumber != "11111111111")
+        {
+            bool isIdentityNumberExist = await userManager.Users.AnyAsync(p => p.IdentityNumber == request.IdentityNumber);
+            if (isIdentityNumberExist)
+            {
+                return Result<string>.Failure(StatusCodes.Status409Conflict, "IdentityNumber is already exist.");
+            }
+        }
+
+        User user = mapper.Map<User>(request);
+        user.UserType= UserType.Patient;
+                
+        Random random = new();
+
+        bool isEmailConfirmCodeExists = true;
+        while (isEmailConfirmCodeExists)
+        {
+            user.EmailConfirmCode = random.Next(100000, 999999);
+            if (!userManager.Users.Any(p => p.EmailConfirmCode == user.EmailConfirmCode))
+            {
+                isEmailConfirmCodeExists = false;
+            }
+        }
+
+        user.EmailConfirmCodeSendDate = DateTime.UtcNow;
+
+        IdentityResult result = await userManager.CreateAsync(user);  
+
+        if (!result.Succeeded)
+        {
+            return Result<string>.Failure(500, result.Errors.Select(s => s.Description).ToList());
+        }
+
+        return Result<string>.Succeed("Patient create is successful");
+    }
+    public async Task<Result<User>> FindPatientWithIdentityNumberAsync(string identityNumber, CancellationToken cancellationToken)
+    {
+        User? user = await userManager.FindByIdAsync(identityNumber);
+
+        if (user is null)
+        {
+            return Result<User>.Failure(500, "User not found");
+        }
+
+        return user;
     }
 }
+
+
 
 

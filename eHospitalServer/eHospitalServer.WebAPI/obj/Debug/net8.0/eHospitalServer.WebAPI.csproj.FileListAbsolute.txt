@@ -133,3 +133,4 @@ C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\refi
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\eHospitalServer.WebAPI.pdb
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\eHospitalServer.WebAPI.genruntimeconfig.cache
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\ref\eHospitalServer.WebAPI.dll
+C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\GenericRepository.dll

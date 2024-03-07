@@ -49,18 +49,18 @@ public class AuthController(IAuthService authService) :ApiController
 
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> SendPasswordResetCode(string email, CancellationToken cancellationToken)
+    public async Task<IActionResult> SendPasswordResetCode(string emailOrUserName, CancellationToken cancellationToken)
     {
-        var response = await authService.SendPasswordResetCodeAsync(email, cancellationToken);
+        var response = await authService.SendPasswordResetCodeAsync(emailOrUserName, cancellationToken);
 
         return StatusCode(response.StatusCode, response);
     }
 
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> ResetPassword(int passwordResetCode, string newPassword, CancellationToken cancellationToken)
+    public async Task<IActionResult> ResetPassword(ResetPasswordWithCodeDto request, CancellationToken cancellationToken)
     {
-        var response = await authService.ResetPasswordWithCodeAsync(passwordResetCode, newPassword, cancellationToken);
+        var response = await authService.ResetPasswordWithCodeAsync(request, cancellationToken);
 
         return StatusCode(response.StatusCode, response);
     }

@@ -188,10 +188,11 @@ internal class AuthService(
 
         return body;
     }
-    public async Task<Result<string>> SendPasswordResetCodeAsync(string email, CancellationToken cancellationToken)
+    public async Task<Result<string>> SendPasswordResetCodeAsync(string emailOrUserName, CancellationToken cancellationToken)
     {
-        var user = await userManager.FindByEmailAsync(email);
-        if (user == null)
+        User? user = await userManager.Users.FirstOrDefaultAsync(p=>p.Email == emailOrUserName || p.UserName == emailOrUserName, cancellationToken);
+
+        if (user is null)
         {
             return Result<string>.Failure(500, "User not found");
         }
@@ -202,13 +203,12 @@ internal class AuthService(
         while (isPasswordResetCodeExists)
         {
             user.PasswordResetCode = random.Next(100000, 999999);
-            if (userManager.Users.Any(p => p.EmailConfirmCode == user.EmailConfirmCode))
+            if (!userManager.Users.Any(p => p.PasswordResetCode == user.PasswordResetCode))
             {
                 isPasswordResetCodeExists = false;
             }
         }
-
-        user.PasswordResetCodeSendDate = DateTime.UtcNow;
+        user.PasswordResetCodeSendDate = DateTime.UtcNow.AddMinutes(5);
 
         await userManager.UpdateAsync(user);
 
@@ -219,104 +219,139 @@ internal class AuthService(
         string response = await MailService.SendEmailAsync(user.Email ?? "", subject, body);
         #endregion
 
-        return Result<string>.Succeed("Password reset code is sent successfully");
+        string email = MaskEmail(user.Email ?? ""); 
+
+        return Result<string>.Succeed($"Password reset code is sent your {email} successfully");
     }
     private string CreatePasswordResetCodeBody(string passwordResetCode)
     {
         string body = @"
-        <!DOCTYPE html>
-        <html lang=""en"">
-        <head>
-            <meta charset=""UTF-8"">
-            <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
-            <title>Password Reset Code</title>
-            <style>
-                /* Stil özellikleri */
-                body {
-                    font-family: Arial, sans-serif;
-                    background-color: #f4f4f4;
-                    padding: 20px;
-                }
-                .container {
-                    max-width: 600px;
-                    margin: 0 auto;
-                    background-color: #fff;
-                    border-radius: 10px;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                    padding: 20px;
-                    text-align: center;
-                    justify-content: center;
-                    align-items: center;
-                }
-                .confirmation-code {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    margin-top: 20px;
-                    margin-left: 50px;
-                }
-                .digit-container {
-                    display: flex;
-                    width: auto; /* Kutu genişliğini artır */
-                    height: auto;
-                    border: 2px solid #007bff;
-                    border-radius: 10px;
-                    margin-right: 10px;
-                    font-size: 55px;
-                    font-weight: bold;
-                    color: #007bff;
-                    text-align: center;
-                    inherit: text-align;
-                }
-            </style>
-        </head>
-        <body>
-            <div class=""""container"""">
-                <h2 style=""""color: #007bff;"""">Email Confirmation Code</h2>
-                <p>Please use the following code to confirm your email:</p>
-                <div class=""""confirmation-code"""">
-                    <!-- Her bir rakam için ayrı bir kutu oluşturuluyor -->
-                    <div class=""""digit-container""""> <div style=""""padding-right: 20px; padding-left: 20px; """"> "" + emailConfirmCode[0] + @"" </div></div>
-                    <div class=""""digit-container""""> <div style=""""padding-right: 20px; padding-left: 20px; """"> "" + emailConfirmCode[1] + @"" </div></div>
-                    <div class=""""digit-container""""> <div style=""""padding-right: 20px; padding-left: 20px; """"> "" + emailConfirmCode[2] + @"" </div></div>
-                    <div class=""""digit-container""""> <div style=""""padding-right: 20px; padding-left: 20px; """"> "" + emailConfirmCode[3] + @"" </div></div>
-                    <div class=""""digit-container""""> <div style=""""padding-right: 20px; padding-left: 20px; """"> "" + emailConfirmCode[4] + @"" </div></div>
-                    <div class=""""digit-container""""> <div style=""""padding-right: 20px; padding-left: 20px; """"> "" + emailConfirmCode[5] + @"" </div></div>
-                </div>
-                <p style=""""margin-top: 20px;"""">This code will expire in 10 minutes.</p>
-            </div>
-        </body>
-        </html>
-        ";
+<!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""UTF-8"">
+    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+    <title>Email Confirmation Code</title>
+    <style>
+        /* Stil özellikleri */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+        .confirmation-code {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-left: 50px;
+        }
+        .digit-container {
+            display: flex;
+            width: auto; /* Kutu genişliğini artır */
+            height: auto;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            margin-right: 10px;
+            font-size: 55px;
+            font-weight: bold;
+            color: #007bff;
+            text-align: center;
+            inherit: text-align;
+        }
+    </style>
+</head>
+<body>
+    <div class=""container"">
+        <h2 style=""color: #007bff;"">Reset Your Password</h2>
+        <p>Please use the following code to confirm your password:</p>
+        <div class=""confirmation-code"">
+            <!-- Her bir rakam için ayrı bir kutu oluşturuluyor -->
+            <div class=""digit-container""> <div style=""padding-right: 20px; padding-left: 20px; ""> " + passwordResetCode[0] + @" </div></div>
+            <div class=""digit-container""> <div style=""padding-right: 20px; padding-left: 20px; ""> " + passwordResetCode[1] + @" </div></div>
+            <div class=""digit-container""> <div style=""padding-right: 20px; padding-left: 20px; ""> " + passwordResetCode[2] + @" </div></div>
+            <div class=""digit-container""> <div style=""padding-right: 20px; padding-left: 20px; ""> " + passwordResetCode[3] + @" </div></div>
+            <div class=""digit-container""> <div style=""padding-right: 20px; padding-left: 20px; ""> " + passwordResetCode[4] + @" </div></div>
+            <div class=""digit-container""> <div style=""padding-right: 20px; padding-left: 20px; ""> " + passwordResetCode[5] + @" </div></div>
+        </div>
+        <p style=""margin-top: 20px;"">This code will expire in 5 minutes.</p>
+    </div>
+</body>
+</html>
+";
         return body;
     }
-
-    public async Task<Result<string>> ResetPasswordWithCodeAsync(int passwordResetCode,string newPassword, CancellationToken cancellationToken)
+    private string MaskEmail(string email)
     {
-       User? user = await userManager.Users.Where(p => p.PasswordResetCode == passwordResetCode).FirstOrDefaultAsync(cancellationToken);
-        if (user is null || user.PasswordResetCode != passwordResetCode)
+        var atIndex = email.IndexOf('@');
+        if (atIndex == -1) return email; // Geçerli bir e-posta adresi değilse, değişiklik yapmadan döndür
+
+        var username = email.Substring(0, atIndex);
+        var domain = email.Substring(atIndex + 1);
+
+        var maskedUsername = username.Length > 1
+            ? username[0] + new string('*', username.Length - 2) + username[^1]
+            : username; // Kullanıcı adı çok kısa ise maskelenmez
+
+        var domainParts = domain.Split('.');
+        if (domainParts.Length > 1)
+        {
+            var domainName = domainParts[0];
+            var maskedDomainName = domainName.Length > 2
+                ? domainName.Substring(0, 2) + new string('*', domainName.Length - 2)
+                : domainName; // Alan adı çok kısa ise maskelenmez
+
+            var maskedDomain = maskedDomainName + "." + string.Join(".", domainParts[1..]);
+            return maskedUsername + "@" + maskedDomain;
+        }
+
+        return maskedUsername + "@" + domain; // E-posta adresinde nokta yoksa veya tanımlanamazsa
+    }
+
+    public async Task<Result<string>> ResetPasswordWithCodeAsync(ResetPasswordWithCodeDto request, CancellationToken cancellationToken)
+    {
+       User? user = await userManager.Users.FirstOrDefaultAsync(p => p.PasswordResetCode == request.PasswordResetCode, cancellationToken);
+        if (user is null || user.PasswordResetCode != request.PasswordResetCode)
         {
             return Result<string>.Failure(500, "Invalid password reset code");
         }
 
-        if (user.PasswordResetCodeSendDate.AddMinutes(5) < DateTime.UtcNow)
+        if (user.PasswordResetCodeSendDate< DateTime.UtcNow)
         {
             return Result<string>.Failure(500, "Password reset code is expired");
         }
 
        var resetToken = await userManager.GeneratePasswordResetTokenAsync(user);
-       var result = await userManager.ResetPasswordAsync(user, resetToken, newPassword);
+       IdentityResult result = await userManager.ResetPasswordAsync(user, resetToken, request.NewPassword);
 
         if (!result.Succeeded)
         {
-            return Result<string>.Failure(500, "Password reset is failed");
+            return Result<string>.Failure(500, result.Errors.Select(s=>s.Description).ToList());
         }
 
         user.PasswordResetCode = null;
+        user.PasswordResetCodeSendDate = null;
+
         await userManager.UpdateAsync(user);
+
+        if(!result.Succeeded)
+        {
+            return Result<string>.Failure(500, result.Errors.Select(s => s.Description).ToList());
+        }
 
         return Result<string>.Succeed("Password reset is succeed");
     }
 
-
+  
 }      

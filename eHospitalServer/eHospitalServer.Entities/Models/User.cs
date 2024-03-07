@@ -14,12 +14,16 @@ public sealed class User : IdentityUser<Guid>
     public DateOnly? DateOfBirth { get; set; }
     public string? BloodType { get; set; }
     public UserType UserType { get; set; } = UserType.User;
+
     public int EmailConfirmCode { get; set; }
     public DateTime EmailConfirmCodeSendDate { get; set; }
+
     public int? PasswordResetCode { get; set; }
-    public DateTime PasswordResetCodeSendDate { get; set; }
+    public DateTime? PasswordResetCodeSendDate { get; set; } 
+
     public string? RefreshToken { get; set; }
     public DateTime? RefreshTokenExpires{ get; set; }
+
     public Guid? DoctorDetailId { get; set; }
     public DoctorDetail? DoctorDetail { get; set; }
 

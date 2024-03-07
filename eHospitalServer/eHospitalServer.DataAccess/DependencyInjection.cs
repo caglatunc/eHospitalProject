@@ -2,6 +2,7 @@
 using eHospitalServer.DataAccess.Options;
 using eHospitalServer.DataAccess.Services;
 using eHospitalServer.Entities.Models;
+using GenericRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,8 @@ public static class DependencyInjection
             options.UseNpgsql(configuration.GetConnectionString("PostgreSQL"))
             .UseSnakeCaseNamingConvention();
         });
+
+        services.AddScoped<IUnitOfWork>(srv=> srv.GetRequiredService<AppDbContext>());
 
         services.AddIdentity<User, IdentityRole<Guid>>(cfr =>
         {

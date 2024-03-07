@@ -1,5 +1,37 @@
 [
   {
+    "ContainingType": "eHospitalServer.WebAPI.Controllers.AppointmentsController",
+    "Method": "CreateAppointment",
+    "RelativePath": "api/Appointments/CreateAppointment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "eHospitalServer.Entities.DTOs.CreateAppointmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eHospitalServer.WebAPI.Controllers.AppointmentsController",
+    "Method": "CreatePatient",
+    "RelativePath": "api/Appointments/CreatePatient",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "eHospitalServer.Entities.DTOs.CreatePatientDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "eHospitalServer.WebAPI.Controllers.AuthController",
     "Method": "ConfirmEmail",
     "RelativePath": "api/Auth/ConfirmEmail",
@@ -56,14 +88,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "passwordResetCode",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "newPassword",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "request",
+        "Type": "eHospitalServer.Entities.DTOs.ResetPasswordWithCodeDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -93,7 +120,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "email",
+        "Name": "emailOrUserName",
         "Type": "System.String",
         "IsRequired": false
       }

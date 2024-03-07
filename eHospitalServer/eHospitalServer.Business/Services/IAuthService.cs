@@ -13,6 +13,6 @@ public interface IAuthService
     Task<Result<LoginResponseDto>> GetTokenByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken);
     Task<Result<string>> SendConfirmEmailAsync(string email, CancellationToken cancellationToken);
     Task<Result<string>> ConfirmVerificationEmailAsync(int emailConfirmCode, CancellationToken cancellationToken);
-    Task<Result<string>> SendPasswordResetCodeAsync(string email, CancellationToken cancellationToken);
-    Task<Result<string>> ResetPasswordWithCodeAsync(int passwordResetCode, string newPassword,CancellationToken cancellationToken);
+    Task<Result<string>> SendPasswordResetCodeAsync(string emailOrUserName, CancellationToken cancellationToken);
+    Task<Result<string>> ResetPasswordWithCodeAsync(ResetPasswordWithCodeDto request,CancellationToken cancellationToken);
 }
