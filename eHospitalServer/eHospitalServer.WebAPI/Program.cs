@@ -1,9 +1,11 @@
+using eHospitalServer.Business;
 using eHospitalServer.DataAccess;
 using eHospitalServer.WebAPI.Middlewares;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddBusiness();
 builder.Services.AddDataAccess(builder.Configuration);
 
 builder.Services.AddControllers();

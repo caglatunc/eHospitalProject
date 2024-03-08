@@ -54,4 +54,36 @@ internal sealed class AppointmentService(
         return Result<string>.Succeed("Appointment created successfully.");
 
     }
+    public async Task<Result<string>> CompleteAppointmentAsync(CompleteAppointmentDto request, CancellationToken cancellationToken)
+    {
+        Appointment? appointment = await appointmentRepository.GetByExpressionWithTrackingAsync(p => p.Id == request.AppointmentId, cancellationToken);
+
+        if (appointment is null)
+        {
+            return Result<string>.Failure("Appointment not found.");
+        }
+        
+        if (appointment.IsItFinished)
+        {
+            return Result<string>.Failure("Appointment already finish. You cannot close again.");
+        }
+
+        appointment.EpicrisisReport = request.EpicrisisReport;
+        appointment.IsItFinished = true;
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result<string>.Succeed("Appointment completed successfully.");
+    }
+
+    public async Task<Result<List<Appointment>>> GetAllAppointmentByDoktorIdAsync(Guid doctorId, CancellationToken cancellationToken)
+    {
+       List<Appointment> appointments = 
+            await appointmentRepository
+            .GetWhere(p => p.DoctorId == doctorId)
+            .OrderBy(p=>p.StartDate)
+            .ToListAsync(cancellationToken);
+
+        return Result<List<Appointment>>.Succeed(appointments);
+    }
 }

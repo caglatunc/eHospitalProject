@@ -24,15 +24,6 @@ public sealed class UserService(
             }
         }
 
-        if (request.UserName is not null)
-        {
-            bool isUserNameExist = await userManager.Users.AnyAsync(p => p.UserName == request.UserName);
-            if (isUserNameExist)
-            {
-                return Result<string>.Failure(StatusCodes.Status409Conflict, "UserName is already exist.");
-            }
-        }
-
         if(request.IdentityNumber != "11111111111")
         {
             bool isIdentityNumberExist = await userManager.Users.AnyAsync(p => p.IdentityNumber == request.IdentityNumber);
@@ -44,6 +35,12 @@ public sealed class UserService(
 
         User user = mapper.Map<User>(request);
 
+            bool isUserNameExist = await userManager.Users.AnyAsync(p => p.UserName == user.UserName);
+            if (isUserNameExist)
+            {
+                return Result<string>.Failure(StatusCodes.Status409Conflict, "UserName is already exist.");
+            }
+        
         Random random = new();
 
         bool isEmailConfirmCodeExists = true;
@@ -107,7 +104,15 @@ public sealed class UserService(
 
         User user = mapper.Map<User>(request);
         user.UserType= UserType.Patient;
-                
+
+        int number = 0;
+        while (await userManager.Users.AnyAsync(p => p.UserName == user.UserName))
+        {
+
+            number++;
+            user.UserName += number;
+        }
+
         Random random = new();
 
         bool isEmailConfirmCodeExists = true;

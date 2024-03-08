@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "gjjBWgKLDJ9/qW2qH3xhiqsnruZ/WZRbuOlAiPYgVK/Z/dkRePHjBKCSW1Zl/+0T4mi8z4vUb2VIEC4FWBM3PA==",
+  "dgSpecHash": "G2njBuUsxn3MOabMoTvw0rQFN2mQ7mv8cD3REXJMp8jkbPIPvObid3HqyQw+szSQghfTX+CG47TYf1PWWRQO2Q==",
   "success": true,
   "projectFilePath": "C:\\eHospitalProject\\eHospitalServer\\eHospitalServer.WebAPI\\eHospitalServer.WebAPI.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,9 @@
     "C:\\Users\\ercan\\.nuget\\packages\\cts.result\\8.0.5\\cts.result.8.0.5.nupkg.sha512",
     "C:\\Users\\ercan\\.nuget\\packages\\entityframeworkcore.genericrepository.nuget\\8.0.1\\entityframeworkcore.genericrepository.nuget.8.0.1.nupkg.sha512",
     "C:\\Users\\ercan\\.nuget\\packages\\entityframeworkcore.namingconventions\\8.0.0\\entityframeworkcore.namingconventions.8.0.0.nupkg.sha512",
+    "C:\\Users\\ercan\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
+    "C:\\Users\\ercan\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
+    "C:\\Users\\ercan\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.9.0\\fluentvalidation.dependencyinjectionextensions.11.9.0.nupkg.sha512",
     "C:\\Users\\ercan\\.nuget\\packages\\genericemailservice\\8.0.0\\genericemailservice.8.0.0.nupkg.sha512",
     "C:\\Users\\ercan\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\ercan\\.nuget\\packages\\mailkit\\4.3.0\\mailkit.4.3.0.nupkg.sha512",

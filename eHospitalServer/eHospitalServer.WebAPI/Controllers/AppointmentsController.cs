@@ -27,4 +27,22 @@ public sealed class AppointmentsController(
 
         return StatusCode(response.StatusCode, response);
     }
+
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> CompleteAppointment(CompleteAppointmentDto request, CancellationToken cancellationToken)
+    {
+        var response = await appointmentService.CompleteAppointmentAsync(request, cancellationToken);
+
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetAllAppointmentByDoktorIdAsync(Guid doctorId, CancellationToken cancellationToken)
+    {
+        var response = await appointmentService.GetAllAppointmentByDoktorIdAsync(doctorId, cancellationToken);
+
+        return StatusCode(response.StatusCode, response);
+    }
 }

@@ -53,6 +53,18 @@
               "target": "Package",
               "version": "[8.0.5, )"
             },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.9.0, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "FluentValidation.DependencyInjectionExtensions": {
+              "target": "Package",
+              "version": "[11.9.0, )"
+            },
             "GenericEmailService": {
               "target": "Package",
               "version": "[8.0.0, )"
