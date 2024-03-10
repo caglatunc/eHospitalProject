@@ -1,17 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { DxSchedulerModule } from 'devextreme-angular';
+import { UserModel } from '../../../models/user.model';
+import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    DxSchedulerModule
+    DxSchedulerModule,
+    FormsModule
  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
   appointmentsData: any[] = [ {
     text: 'Website Re-Design Plan',
     startDate: new Date('2021-04-26T16:30:00.000Z'),
@@ -79,8 +83,24 @@ export class HomeComponent {
     startDate: new Date('2021-04-30T19:20:00.000Z'),
     endDate: new Date('2021-04-30T21:00:00.000Z'),
   },];
-  currentDate: Date = new Date();
+selectedDoctor: string = "";
 
-  constructor() {}
+  currentDate: Date = new Date(2024, 4, 25);
+
+  doctors : UserModel[] = [];
+
+  constructor(
+    private http : HttpClient
+  ) {}
+  ngOnInit(): void {
+   this.getAllDoctors();
+  }
+
+  getAllDoctors(){
+    this.http.get("https://localhost:7204/api/Doctors/GetAllDoctors").subscribe((res:any)=>{
+      this.doctors = res.data
+    })
+  }
+
 
 }

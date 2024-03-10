@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "eHospitalServer.WebAPI/1.0.0": {
         "dependencies": {
+          "CTS.Result": "8.0.5",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.2",
           "Microsoft.EntityFrameworkCore.Design": "8.0.2",
           "Swashbuckle.AspNetCore": "6.5.0",

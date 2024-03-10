@@ -160,6 +160,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "eHospitalServer.WebAPI.Controllers.DoctorsController",
+    "Method": "GetAllDoctors",
+    "RelativePath": "api/Doctors/GetAllDoctors",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "eHospitalServer.WebAPI.Controllers.UsersController",
     "Method": "Create",
     "RelativePath": "api/Users/Create",
