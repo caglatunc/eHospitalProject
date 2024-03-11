@@ -1,106 +1,141 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DxSchedulerModule } from 'devextreme-angular';
 import { UserModel } from '../../../models/user.model';
 import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
+declare var $: any;
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     DxSchedulerModule,
-    FormsModule
- ],
+    FormsModule,
+    CommonModule
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit{
-  appointmentsData: any[] = [ {
-    text: 'Website Re-Design Plan',
-    startDate: new Date('2021-04-26T16:30:00.000Z'),
-    endDate: new Date('2021-04-26T18:30:00.000Z'),
-  }, {
-    text: 'Book Flights to San Fran for Sales Trip',
-    startDate: new Date('2021-04-26T19:00:00.000Z'),
-    endDate: new Date('2021-04-26T20:00:00.000Z'),
-    allDay: true,
-  }, {
-    text: 'Install New Router in Dev Room',
-    startDate: new Date('2021-04-26T21:30:00.000Z'),
-    endDate: new Date('2021-04-26T22:30:00.000Z'),
-  }, {
-    text: 'Approve Personal Computer Upgrade Plan',
-    startDate: new Date('2021-04-27T17:00:00.000Z'),
-    endDate: new Date('2021-04-27T18:00:00.000Z'),
-  }, {
-    text: 'Final Budget Review',
-    startDate: new Date('2021-04-27T19:00:00.000Z'),
-    endDate: new Date('2021-04-27T20:35:00.000Z'),
-  }, {
-    text: 'New Brochures',
-    startDate: new Date('2021-04-27T21:30:00.000Z'),
-    endDate: new Date('2021-04-27T22:45:00.000Z'),
-  }, {
-    text: 'Install New Database',
-    startDate: new Date('2021-04-28T16:45:00.000Z'),
-    endDate: new Date('2021-04-28T18:15:00.000Z'),
-  }, {
-    text: 'Approve New Online Marketing Strategy',
-    startDate: new Date('2021-04-28T19:00:00.000Z'),
-    endDate: new Date('2021-04-28T21:00:00.000Z'),
-  }, {
-    text: 'Upgrade Personal Computers',
-    startDate: new Date('2021-04-28T22:15:00.000Z'),
-    endDate: new Date('2021-04-28T23:30:00.000Z'),
-  }, {
-    text: 'Customer Workshop',
-    startDate: new Date('2021-04-29T18:00:00.000Z'),
-    endDate: new Date('2021-04-29T19:00:00.000Z'),
-    allDay: true,
-  }, {
-    text: 'Prepare 2021 Marketing Plan',
-    startDate: new Date('2021-04-29T18:00:00.000Z'),
-    endDate: new Date('2021-04-29T20:30:00.000Z'),
-  }, {
-    text: 'Brochure Design Review',
-    startDate: new Date('2021-04-29T21:00:00.000Z'),
-    endDate: new Date('2021-04-29T22:30:00.000Z'),
-  }, {
-    text: 'Create Icons for Website',
-    startDate: new Date('2021-04-30T17:00:00.000Z'),
-    endDate: new Date('2021-04-30T18:30:00.000Z'),
-  }, {
-    text: 'Upgrade Server Hardware',
-    startDate: new Date('2021-04-30T21:30:00.000Z'),
-    endDate: new Date('2021-04-30T23:00:00.000Z'),
-  }, {
-    text: 'Submit New Website Design',
-    startDate: new Date('2021-04-30T23:30:00.000Z'),
-    endDate: new Date('2021-05-01T01:00:00.000Z'),
-  }, {
-    text: 'Launch New Website',
-    startDate: new Date('2021-04-30T19:20:00.000Z'),
-    endDate: new Date('2021-04-30T21:00:00.000Z'),
-  },];
-selectedDoctor: string = "";
+export class HomeComponent implements OnInit {
+  appointmentsData: any[] = [];
+  selectedDoctorId: string = "";
+  currentDate: Date = new Date();
+  doctors: UserModel[] = [];
+  patients: UserModel[] = [];
 
-  currentDate: Date = new Date(2024, 4, 25);
+  addPatientModel: UserModel = new UserModel();
 
-  doctors : UserModel[] = [];
+  @ViewChild('patientAddModalCloseBtn', { static: false }) patientAddModalCloseBtn!: ElementRef<HTMLButtonElement>;
+
+  isPatientModalVisible: boolean = false; // Modal'ın görünürlüğünü kontrol edecek
+  currentAppointmentData: any = null; // Seçilen randevu bilgilerini saklayacak
+
 
   constructor(
-    private http : HttpClient
-  ) {}
+    private http: HttpClient
+  ) { }
+
+
   ngOnInit(): void {
-   this.getAllDoctors();
+    this.getAllDoctors();
   }
 
-  getAllDoctors(){
-    this.http.get("https://localhost:7204/api/Doctors/GetAllDoctors").subscribe((res:any)=>{
+
+
+  getAllDoctors() {
+    this.http.get("https://localhost:7204/api/Doctors/GetAllDoctors").subscribe((res: any) => {
       this.doctors = res.data
     })
   }
 
+  getDoctorAppointments() {
+    if (this.selectedDoctorId === "") return;
+
+    this.http.get(`https://localhost:7204/api/Appointments/GetAllAppointmentByDoktorId?doctorId=${this.selectedDoctorId}`).subscribe
+      ((res: any) => {
+
+        console.log(res.data);
+
+        const data = res.data.map((val: any, i: number) => {
+          return {
+            text: val.patient.fullName,
+            startDate: new Date(val.startDate),
+            endDate: new Date(val.endDate)
+          }
+        })
+        this.appointmentsData = data;
+      })
+  }
+
+  onAppointmentFormOpening(e: any) {
+    e.cancel = true; // Bu varsayılan formun açılmasını önler
+    console.log('Cell double clicked', e); // Bu satırı ekleyin
+    // Kendi modal açma fonksiyonunuzu burada çağırın
+    this.openPatientAppointmentModal(e.appointmentData);
+  }
+
+  openPatientAppointmentModal(appointmentData: any) {
+    this.currentAppointmentData = appointmentData; // Randevu verisini saklayın
+    this.isPatientModalVisible = true; // Modal'ı göster
+    console.log('Modal should open now');
+  }
+  closePatientModal() {
+    this.isPatientModalVisible = false; // Modal'ı gizle
+  }
+
+  createPatient(form: NgForm) {
+    if (form.valid) {
+      // Hasta kayıtlı mı diye kontrol et (E-posta veya kimlik numarası ile sorgulama yapılabilir)
+      this.isPatientExists(this.addPatientModel.email).subscribe(exists => {
+      if (exists) {
+      //  Hasta kayıtlıysa, mevcut hasta bilgisi ile randevu oluştur.
+       } else {
+      //     // Hasta kayıtlı değilse, yeni hasta oluştur ve randevu kaydet.
+        }
+     });
+      
+      // Eğer hasta zaten seçildiyse ve id bilgisi 0 değilse, randevuyu oluştur.
+      if (this.addPatientModel.id && this.addPatientModel.id !== "0") {
+        // Randevu oluşturma işlemi
+        this.createAppointment(this.addPatientModel);
+      } else {
+        // Yeni hasta oluşturma işlemi
+        this.http.post("https://localhost:7204/api/Appointments/CreatePatient", this.addPatientModel).subscribe({
+          next: (res) => {
+            console.log('Creating patient:', res);
+            // Yeni hasta oluşturulduktan sonra randevu oluşturma işlemi
+            this.createAppointment(res.id);
+          },
+          error: (err) => {
+            console.error('Error creating patient:', err);
+          }
+        });
+      }
+    } else {
+      alert('Form is not valid');
+    }
+  }
+  
+ createAppointment(patientId: string){
+    const appointmentData = {
+      doctorId: this.selectedDoctorId,
+      patientId: patientId,
+      startDate: this.currentAppointmentData.startDate,
+      endDate: this.currentAppointmentData.endDate
+    };
+    this.http.post("https://localhost:7204/api/Appointments/CreateAppointment", appointmentData).subscribe({
+      next: (res) => {
+        console.log('Creating appointment:', res);
+        this.getDoctorAppointments();
+        this.closePatientModal();
+      },
+      error: (err) => {
+        console.error('Error creating appointment:', err);
+      }
+    });
+ }
 
 }
+  

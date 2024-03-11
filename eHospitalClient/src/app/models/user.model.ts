@@ -4,4 +4,5 @@ export class UserModel{
     lastName: string = "";
     fullName: string = "";
     email: string = "";
+    identityNumber:string = "";
 }

@@ -4,6 +4,15 @@ using eHospitalServer.WebAPI.Middlewares;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 
 builder.Services.AddBusiness();
 builder.Services.AddDataAccess(builder.Configuration);
@@ -24,6 +33,8 @@ ExtensionsMiddleware.CreateFirstUser(app);
 
 app.UseHttpsRedirection();
 
+app.UseCors();  
+    
 app.MapControllers()
     .RequireAuthorization(policy =>
     {

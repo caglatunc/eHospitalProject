@@ -1,8 +1,8 @@
 <div class="form-group mt-2">
-  <select class="form-control" [(ngModel)]="selectedDoctor">
+  <select (change)=" getDoctorAppointments()" class="form-control" [(ngModel)]="selectedDoctorId">
     <option value="" >Select Doctor...</option>
     @for (doctor of doctors; track doctor) {
-      <option value="doctor.id">{{doctor.fullName}}</option>
+      <option [value]="doctor.id">{{doctor.fullName}}</option>
     }
   </select>
 </div>
@@ -16,8 +16,52 @@
     [currentDate]="currentDate"
     [startDayHour]="9"
     [height]="730"
+    (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
   >
   </dx-scheduler>
 </div>
 
+<!-- Patient Modal Start -->
+<div class="modal fade" *ngIf="isPatientModalVisible" [class.show]="isPatientModalVisible" style="display: block;" id="addPatientModal" tabindex="-1" aria-hidden="true" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Add Patient</h1>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="closePatientModal()"></button>
+      </div>
+      <form formValidate #addPatientForm="ngForm" (ngSubmit)="createPatient(addPatientForm)" autocomplete="off">
+        <div class="modal-body">
+          <!-- Form içerisindeki alanlar (firstName, lastName, identityNumber, vb.) -->
+          <div class="form-group">
+            <label>Patient Name</label>
+            <input type="text" class="form-control" [(ngModel)]="currentAppointmentData.patientName" name="patientName">
+          </div>
+          <div class="form-group">
+            <label>Patient LastName</label>
+            <input type="text" class="form-control" [(ngModel)]="currentAppointmentData.patientName" name="patientName">
+          </div>
+          <div class="form-group">
+            <label>Patient identityNumber</label>
+            <input type="text" class="form-control" id="identityNumber" name="identityNumber" 
+            [(ngModel)]="addPatientModel.identityNumber" required minlength="11" maxLength="11">
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="form-group">
+            <label>Patient Name</label>
+            <input type="text" class="form-control" [(ngModel)]="currentAppointmentData.patientName" name="patientName">
+          </div>
+          <div class="form-group">
+            <label>Patient Name</label>
+            <input type="text" class="form-control" [(ngModel)]="currentAppointmentData.patientName" name="patientName">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closePatientModal()">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Patient Modal End -->
 

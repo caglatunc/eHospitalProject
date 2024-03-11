@@ -81,6 +81,8 @@ internal sealed class AppointmentService(
        List<Appointment> appointments = 
             await appointmentRepository
             .GetWhere(p => p.DoctorId == doctorId)
+            .Include(p=>p.Doctor)
+            .Include(p=>p.Patient)
             .OrderBy(p=>p.StartDate)
             .ToListAsync(cancellationToken);
 
