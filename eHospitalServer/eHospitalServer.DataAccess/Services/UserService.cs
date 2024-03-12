@@ -138,14 +138,14 @@ public sealed class UserService(
     }
     public async Task<Result<User>> FindPatientWithIdentityNumberAsync(string identityNumber, CancellationToken cancellationToken)
     {
-        User? user = await userManager.FindByIdAsync(identityNumber);
+        User? user = await userManager.Users.Where(p=>p.IdentityNumber == identityNumber).FirstOrDefaultAsync(cancellationToken);
 
         if (user is null)
         {
-            return Result<User>.Failure(500, "User not found");
+            return Result<User>.Failure(500,"User not found");
         }
 
-        return user;
+       return Result<User>.Succeed(user);
     }
 
     public async Task<Result<List<User>>> GetAllDoctorsAsync(CancellationToken cancellationToken)

@@ -5,4 +5,8 @@ export class UserModel{
     fullName: string = "";
     email: string = "";
     identityNumber:string = "";
+    dateOfBirth: Date = new Date();
+    phoneNumber: string = "";
+    fullAddress: string = "";
+    bloodType: string = "";
 }

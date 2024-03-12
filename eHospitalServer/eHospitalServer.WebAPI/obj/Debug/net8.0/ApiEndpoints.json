@@ -184,5 +184,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eHospitalServer.WebAPI.Controllers.UsersController",
+    "Method": "FindPatientWithIdentityNumberAsync",
+    "RelativePath": "api/Users/FindPatientWithIdentityNumber",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "identityNumber",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

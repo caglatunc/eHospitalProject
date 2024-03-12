@@ -4,6 +4,11 @@ import { UserModel } from '../../../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SwalService } from '../../services/swal.service';
+import { FormValidateDirective } from 'form-validate-angular';
+import { AppointmentModel } from '../../../models/appointment.modeL';
+
+
 
 declare var $: any;
 
@@ -13,7 +18,8 @@ declare var $: any;
   imports: [
     DxSchedulerModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    FormValidateDirective
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -23,26 +29,26 @@ export class HomeComponent implements OnInit {
   selectedDoctorId: string = "";
   currentDate: Date = new Date();
   doctors: UserModel[] = [];
-  patients: UserModel[] = [];
-
+  
   addPatientModel: UserModel = new UserModel();
+  addAppointmentModel: AppointmentModel = new AppointmentModel();
 
   @ViewChild('patientAddModalCloseBtn', { static: false }) patientAddModalCloseBtn!: ElementRef<HTMLButtonElement>;
 
-  isPatientModalVisible: boolean = false; // Modal'ın görünürlüğünü kontrol edecek
-  currentAppointmentData: any = null; // Seçilen randevu bilgilerini saklayacak
+  isAppointmentModalVisible: boolean = false; // Randevu ekleme Modal'ın görünürlüğünü kontrol edecek
+  isPatientModalVisible: boolean = false; // Hasta ekleme modalının görünürlüğünü kontrol edecek
+  appointmentData: any = null; // Seçilen randevu bilgilerini saklayacak
 
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private swal: SwalService
   ) { }
 
 
   ngOnInit(): void {
     this.getAllDoctors();
   }
-
-
 
   getAllDoctors() {
     this.http.get("https://localhost:7204/api/Doctors/GetAllDoctors").subscribe((res: any) => {
@@ -69,73 +75,125 @@ export class HomeComponent implements OnInit {
       })
   }
 
+//Scheduler Üzerinde Çift Tıklama Olayını Yönetme
   onAppointmentFormOpening(e: any) {
-    e.cancel = true; // Bu varsayılan formun açılmasını önler
-    console.log('Cell double clicked', e); // Bu satırı ekleyin
-    // Kendi modal açma fonksiyonunuzu burada çağırın
-    this.openPatientAppointmentModal(e.appointmentData);
-  }
-
-  openPatientAppointmentModal(appointmentData: any) {
-    this.currentAppointmentData = appointmentData; // Randevu verisini saklayın
-    this.isPatientModalVisible = true; // Modal'ı göster
-    console.log('Modal should open now');
-  }
-  closePatientModal() {
-    this.isPatientModalVisible = false; // Modal'ı gizle
-  }
-
-  createPatient(form: NgForm) {
-    if (form.valid) {
-      // Hasta kayıtlı mı diye kontrol et (E-posta veya kimlik numarası ile sorgulama yapılabilir)
-      this.isPatientExists(this.addPatientModel.email).subscribe(exists => {
-      if (exists) {
-      //  Hasta kayıtlıysa, mevcut hasta bilgisi ile randevu oluştur.
-       } else {
-      //     // Hasta kayıtlı değilse, yeni hasta oluştur ve randevu kaydet.
-        }
-     });
+    e.cancel = true; // Varsayılan form açılışını engelle
+    if (e.appointmentData) {
+      // appointmentData içinde startDate ve endDate'in olması beklenir
+      this.appointmentData = {
+        startDate: e.appointmentData.startDate,
+        endDate: e.appointmentData.endDate,
+        // Diğer gerekli alanlar...
+      };
       
-      // Eğer hasta zaten seçildiyse ve id bilgisi 0 değilse, randevuyu oluştur.
-      if (this.addPatientModel.id && this.addPatientModel.id !== "0") {
-        // Randevu oluşturma işlemi
-        this.createAppointment(this.addPatientModel);
-      } else {
-        // Yeni hasta oluşturma işlemi
-        this.http.post("https://localhost:7204/api/Appointments/CreatePatient", this.addPatientModel).subscribe({
-          next: (res) => {
-            console.log('Creating patient:', res);
-            // Yeni hasta oluşturulduktan sonra randevu oluşturma işlemi
-            this.createAppointment(res.id);
-          },
-          error: (err) => {
-            console.error('Error creating patient:', err);
-          }
-        });
-      }
+      // Randevu oluşturma modali göster
+      this.isAppointmentModalVisible = true;
     } else {
-      alert('Form is not valid');
+      // appointmentData içinde gerekli bilgiler yoksa hata göster
+      this.swal.callToast('Appointment data is incomplete.', 'error');
     }
   }
+
+  // Randevu oluşturma modalını açan metod
+  openAppointmentModal(): void {
+    this.resetAppointmentForm(); // Formu sıfırla veya varsayılan değerler atayabilirsiniz
+    this.isAppointmentModalVisible = true; // Randevu oluşturma modalını göster
+  }
+ // Randevu oluşturma formunu gönderen metod
+  submitAppointmentForm(form: NgForm) {
+    if (form.valid) {
+      
+      // API'ye randevu oluşturma isteği gönder
+      this.http.post('https://localhost:7204/api/Appointments/CreateAppointment', this.appointmentData).subscribe({
+        next: (res) => {
+          this.isAppointmentModalVisible = false; // Modalı kapat
+          this.swal.callToast('Appointment created successfully!', 'success');
+          // Randevuları tekrar yükleyin veya güncelleyin
+        },
+        error: (err) => {
+          this.swal.callToast('Error creating appointment.', 'error');
+        }
+      });
+    } else {
+      this.swal.callToast('Please fill in all required fields.', 'error');
+    }
+  }
+
+   // Randevu oluşturma modalını kapatan metod
+   closeAppointmentModal() {
+    this.isAppointmentModalVisible = false;
+  }
+
+  // Hasta ekleme modalını açan metod
+  openAddPatientModal(): void {
+    this.resetPatientForm();// Formu temizler (yeni girişler için)
+    this.isPatientModalVisible = true; // Hasta ekleme modalını göster
+  }
+
+  // Hasta ekleme formunu gönderen metod
+  submitAddPatientForm(form: NgForm) {
+    if (!form.valid) {
+      this.swal.callToast('Please fill in all required fields.', 'warning');
+      return;
+    }
+      const identityNumber = this.addPatientModel.identityNumber;
+      this.http.get(`https://localhost:7204/api/Users/FindPatientWithIdentityNumber?identityNumber=${identityNumber}`)
+        .subscribe({
+          next: (response: any) => {
+            if(response && response.data) {
+              // Hasta sisteme kayıtlı, randevu oluştur
+              this.openAppointmentModal();
+              this.createAppointment(response.data.id);
+              this.swal.callToast('Patient found, creating appointment!', 'success');
+            } else {
+              // Hasta sisteme kayıtlı değil, hasta ekleme modalını aç
+              this.openAddPatientModal();
+              this.swal.callToast('Patient not found, please add new patient!', 'warning');
+            }
+          },
+          error: (error) => {
+            // Hata oluştu
+            console.error('Error fetching patient data:', error);
+            this.swal.callToast('An error occurred while searching for the patient.', 'error');
+          }
+        });
+     
+      this.swal.callToast('Please enter a valid identity number.', 'warning');
+  }
   
- createAppointment(patientId: string){
+// Hasta ekleme modalını kapatan metod
+  closeAddPatientModal() {
+    this.isPatientModalVisible = false;
+  }
+
+
+
+  // Randevu oluşturmak için ortak kullanılan metod
+  createAppointment(patientId: string) {
     const appointmentData = {
       doctorId: this.selectedDoctorId,
       patientId: patientId,
-      startDate: this.currentAppointmentData.startDate,
-      endDate: this.currentAppointmentData.endDate
+      startDate: this.appointmentData.startDate,
+      endDate: this.appointmentData.endDate
     };
-    this.http.post("https://localhost:7204/api/Appointments/CreateAppointment", appointmentData).subscribe({
+    this.http.post('https://localhost:7204/api/Appointments/CreateAppointment', appointmentData).subscribe({
       next: (res) => {
-        console.log('Creating appointment:', res);
-        this.getDoctorAppointments();
-        this.closePatientModal();
+        this.isAppointmentModalVisible = false; // Modalı kapat
+        this.swal.callToast('Appointment created successfully!', 'success');
+        // Randevuları tekrar yükleyin veya güncelleyin
       },
       error: (err) => {
-        console.error('Error creating appointment:', err);
+        this.swal.callToast('Error creating appointment.', 'error');
       }
     });
- }
+  }
+ 
+  resetPatientForm() {
+    // ... form sıfırlama işlemleri ...
+  }
 
+  resetAppointmentForm() {
+    // ... form sıfırlama işlemleri ...
+  }
 }
-  
+

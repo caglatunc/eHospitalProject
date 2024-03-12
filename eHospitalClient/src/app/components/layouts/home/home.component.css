@@ -1,0 +1,49 @@
+/* Modal Dialog Styles */
+.modal-dialog {
+    max-width: 400px; /* Modal genişliği */
+    margin: 30px auto; /* Merkezde ve dikey olarak biraz daha yukarıda yer alması için */
+  }
+  
+  /* Modal Content Styles */
+  .modal-content {
+    border-radius: 5px; /* Kenar yuvarlaklığını azalt */
+  }
+  
+  /* Form Group Styles */
+  .form-group {
+    margin-bottom: 1rem; /* Alt boşlukları azalt */
+    font-weight: bold; 
+  }
+  
+  /* Input Styles */
+  .form-control {
+    border-radius: 4px; /* Kenar yuvarlaklığını azalt */
+  }
+  
+  /* Button Styles */
+  .btn {
+    border-radius: 4px; /* Buton kenar yuvarlaklığını azalt */
+  }
+  
+  /* Adjust the modal padding */
+  .modal-body {
+    padding: 1rem; /* İç boşlukları azalt */
+  }
+  
+  .modal-footer {
+    padding: 1rem; /* İç boşlukları azalt */
+  }
+  
+  /* Adjust the modal header */
+  .modal-header {
+    padding: 1rem; /* İç boşlukları azalt */
+    border-bottom: 1px solid #e9ecef; /* Alt kenarlık ekle */
+    background-color:  #f7f7f7;
+  }
+  
+  /* Adjust modal title */
+  .modal-title {
+    font-size: 1.25rem; /* Başlık font boyutunu ayarla */
+    font-weight: bold; /* Başlık font kalınlığını ayarla */
+  }
+  
