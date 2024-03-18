@@ -45,4 +45,13 @@ public sealed class AppointmentsController(
 
         return StatusCode(response.StatusCode, response);
     }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> FindPatientByIdentityNumber(FindPatientDto request, CancellationToken cancellationToken)
+    {
+        var response = await appointmentService.FindPatientByIdentityNumberAsync(request, cancellationToken);
+
+        return StatusCode(response.StatusCode, response);
+    }
 }

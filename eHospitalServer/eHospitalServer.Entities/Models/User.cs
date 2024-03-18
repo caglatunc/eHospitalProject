@@ -13,7 +13,7 @@ public sealed class User : IdentityUser<Guid>
     public bool IsDeleted { get; set; } = false;
     public DateOnly? DateOfBirth { get; set; }
     public string? BloodType { get; set; }
-    public UserType UserType { get; set; } = UserType.User;
+    public UserType UserType { get; set; } = UserType.Patient;
 
     public int EmailConfirmCode { get; set; }
     public DateTime EmailConfirmCodeSendDate { get; set; }

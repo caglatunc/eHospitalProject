@@ -1,8 +1,14 @@
+import { UserModel } from "./user.model";
+
 export class AppointmentModel {
-    id = "";
-    doctorId = "";
-    patientId = "";
-    startDate = new Date();
-    endDate = new Date();
-    price = 0;
+    id: string = "";
+    doctorId: string = "";
+    doctor: UserModel = new UserModel();
+    patientId: string = "";
+    patient: UserModel = new UserModel();
+    startDate: string = "";
+    endDate: string = "";
+    epicrisisReport: string = "";
+    price:number = 0;
+    isItFinished: boolean = false;
 }

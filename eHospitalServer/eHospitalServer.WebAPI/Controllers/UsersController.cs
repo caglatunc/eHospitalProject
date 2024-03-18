@@ -17,14 +17,4 @@ public sealed class UsersController(
 
         return StatusCode(response.StatusCode, response);
     }
-
-    [HttpGet]
-    [AllowAnonymous]
-
-    public async Task<IActionResult> FindPatientWithIdentityNumberAsync(string identityNumber, CancellationToken cancellationToken)
-    {
-        var response = await userService.FindPatientWithIdentityNumberAsync(identityNumber,cancellationToken);
-    
-        return StatusCode(response.StatusCode, response);
-    }
 }

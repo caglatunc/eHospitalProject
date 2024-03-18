@@ -88,4 +88,15 @@ internal sealed class AppointmentService(
 
         return Result<List<Appointment>>.Succeed(appointments);
     }
+
+    public async Task<Result<User>> FindPatientByIdentityNumberAsync(FindPatientDto request, CancellationToken cancellationToken)
+    {
+         User? user = await userManager.Users.FirstOrDefaultAsync(p => p.IdentityNumber == request.IdentityNumber, cancellationToken);
+        if (user == null)
+        {
+            return Result<User>.Failure("Patient not found.");
+        }
+
+        return user;
+    }
 }

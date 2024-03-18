@@ -49,6 +49,22 @@
   },
   {
     "ContainingType": "eHospitalServer.WebAPI.Controllers.AppointmentsController",
+    "Method": "FindPatientByIdentityNumber",
+    "RelativePath": "api/Appointments/FindPatientByIdentityNumber",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "eHospitalServer.Entities.DTOs.FindPatientDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eHospitalServer.WebAPI.Controllers.AppointmentsController",
     "Method": "GetAllAppointmentByDoktorIdAsync",
     "RelativePath": "api/Appointments/GetAllAppointmentByDoktorId",
     "HttpMethod": "GET",
@@ -181,22 +197,6 @@
         "Name": "request",
         "Type": "eHospitalServer.Entities.DTOs.CreateUserDto",
         "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "eHospitalServer.WebAPI.Controllers.UsersController",
-    "Method": "FindPatientWithIdentityNumberAsync",
-    "RelativePath": "api/Users/FindPatientWithIdentityNumber",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "identityNumber",
-        "Type": "System.String",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []

@@ -3,10 +3,9 @@ export class UserModel{
     firstName: string = "";
     lastName: string = "";
     fullName: string = "";
-    email: string = "";
+    email:  string | null | undefined;
     identityNumber:string = "";
-    dateOfBirth: Date = new Date();
-    phoneNumber: string = "";
     fullAddress: string = "";
-    bloodType: string = "";
+    dateOfBirth: string | null | undefined;
+    bloodType: string | null | undefined;
 }
