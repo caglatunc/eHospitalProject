@@ -1,5 +1,6 @@
 ﻿using eHospitalServer.Entities.Enums;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eHospitalServer.Entities.Models;
 public sealed class User : IdentityUser<Guid>
@@ -24,6 +25,7 @@ public sealed class User : IdentityUser<Guid>
     public string? RefreshToken { get; set; }
     public DateTime? RefreshTokenExpires{ get; set; }
 
+    [ForeignKey("DoctorDetail")]
     public Guid? DoctorDetailId { get; set; }
     public DoctorDetail? DoctorDetail { get; set; }
 

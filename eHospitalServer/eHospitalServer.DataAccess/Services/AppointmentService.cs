@@ -14,9 +14,10 @@ internal sealed class AppointmentService(
     UserManager<User> userManager,
     IAppointmentRepository appointmentRepository,
     IUnitOfWork unitOfWork,
+    IUserService userService,
     IMapper mapper) : IAppointmentService
 {
-    public async Task<Result<string>> CreateAppointmentAsync(CreateAppointmentDto request, CancellationToken cancellationToken)
+    public async Task<Result<string>> CreateAsync(CreateAppointmentDto request, CancellationToken cancellationToken)
     {
         // Check if the doctor exists
        User? doctor = await userManager.Users.Include(p=>p.DoctorDetail).FirstOrDefaultAsync(p => p.Id == request.DoctorId, cancellationToken);
@@ -30,6 +31,8 @@ internal sealed class AppointmentService(
         {
             return Result<string>.Failure( 500,"Doctor not work on the requested day");
         }
+
+
         // Check doctor working hours. Patient can only make an appointment between doctor's working hours.
         DateTime startDate = DateTime.SpecifyKind(request.StartDate, DateTimeKind.Utc);
         DateTime endDate = DateTime.SpecifyKind(request.EndDate, DateTimeKind.Utc);
@@ -45,8 +48,26 @@ internal sealed class AppointmentService(
         {
             return Result<string>.Failure( 500,"Doctor is not available on the requested date.");
         }
+
         // Created appointment and save to database
         Appointment appointment = mapper.Map<Appointment>(request);
+
+        if (request.PatientId is null)
+        {
+            CreatePatientDto createPatientDto = new(
+                request.FirstName,
+                request.LastName,
+                request.IdentityNumber,
+                request.FullAddress,
+                request.Email,
+                request.PhoneNumber,
+                request.DateOfBirth,
+                request.BloodType);
+
+          var createPatientResponse =  await userService.CreatePatientAsync(createPatientDto, cancellationToken);
+
+          appointment.PatientId = createPatientResponse.Data;
+        }
 
         await appointmentRepository.AddAsync(appointment, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -89,14 +110,36 @@ internal sealed class AppointmentService(
         return Result<List<Appointment>>.Succeed(appointments);
     }
 
-    public async Task<Result<User>> FindPatientByIdentityNumberAsync(FindPatientDto request, CancellationToken cancellationToken)
+    public async Task<Result<User?>> FindPatientByIdentityNumberAsync(FindPatientDto request, CancellationToken cancellationToken)
     {
          User? user = await userManager.Users.FirstOrDefaultAsync(p => p.IdentityNumber == request.IdentityNumber, cancellationToken);
-        if (user == null)
+        
+        return Result<User?>.Succeed(user);
+    }
+    public async Task<Result<List<User>>> GetAllDoctorsAsync(CancellationToken cancellationToken)
+    {
+        var doctors =
+          await userManager
+          .Users
+          .Where(p => p.UserType == UserType.Doctor)
+          .Include(p => p.DoctorDetail)
+          .OrderBy(p => p.FirstName)
+          .ToListAsync(cancellationToken);
+
+        return Result<List<User>>.Succeed(doctors);
+    }
+
+    public async Task<Result<string>> DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        Appointment? appointment = await appointmentRepository.GetByExpressionAsync(p => p.Id == id, cancellationToken);
+        if(appointment is null)
         {
-            return Result<User>.Failure("Patient not found.");
+            return Result<string>.Failure("Appointment not found.");
         }
 
-        return user;
+        appointmentRepository.Delete(appointment);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result<string>.Succeed("Appointment deleted successfully.");
     }
 }

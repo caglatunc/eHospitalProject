@@ -19,3 +19,25 @@ Accept: application/json
 
 
 ###
+
+POST https://localhost:7204/api/Users/Create
+Content-Type: application/json
+
+{
+  "firstName": "Çaðrý",
+  "lastName": "Tunç",
+  "identityNumber": "33333333333",
+  "fullAddress": "Ýstanbul",
+  "email": "cagri@gmail.com",
+  "userName": "cagritunc",
+  "password": "Password12*",
+  "phoneNumber": "5435062833",
+  "dateOfBirth": "1990-02-18",
+  "bloodType": "A-",
+  "userType": 3,
+  "specialty": 4,
+  "workingDays": [
+    "string"
+  ]
+}
+###

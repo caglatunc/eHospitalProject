@@ -82,14 +82,14 @@ public sealed class UserService(
 
         return Result<string>.Succeed("User create is successful");
     }
-    public async Task<Result<string>> CreatePatientAsync(CreatePatientDto request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> CreatePatientAsync(CreatePatientDto request, CancellationToken cancellationToken)
     {
         if (request.Email is not null)
         {
             bool isEmailExist = await userManager.Users.AnyAsync(p => p.Email == request.Email);
             if (isEmailExist)
             {
-                return Result<string>.Failure(StatusCodes.Status409Conflict, "Email is already exist.");
+                return Result<Guid>.Failure(StatusCodes.Status409Conflict, "Email is already exist.");
             }
         }
 
@@ -98,7 +98,7 @@ public sealed class UserService(
             bool isIdentityNumberExist = await userManager.Users.AnyAsync(p => p.IdentityNumber == request.IdentityNumber);
             if (isIdentityNumberExist)
             {
-                return Result<string>.Failure(StatusCodes.Status409Conflict, "IdentityNumber is already exist.");
+                return Result<Guid>.Failure(StatusCodes.Status409Conflict, "IdentityNumber is already exist.");
             }
         }
 
@@ -131,23 +131,10 @@ public sealed class UserService(
 
         if (!result.Succeeded)
         {
-            return Result<string>.Failure(500, result.Errors.Select(s => s.Description).ToList());
+            return Result<Guid>.Failure(500, result.Errors.Select(s => s.Description).ToList());
         }
 
-        return Result<string>.Succeed("Patient create is successful");
-    }
-  
-    public async Task<Result<List<User>>> GetAllDoctorsAsync(CancellationToken cancellationToken)
-    {
-        var doctors =
-          await userManager
-          .Users
-          .Where(p => p.UserType == UserType.Doctor)
-          .Include(p => p.DoctorDetail)
-          .OrderBy(p => p.FirstName)
-          .ToListAsync(cancellationToken);
-
-        return Result<List<User>>.Succeed(doctors);
+        return Result<Guid>.Succeed(user.Id);
     }
 }
 
