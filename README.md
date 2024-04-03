@@ -27,10 +27,12 @@ e-Hospital, .NET 8 ve Angular 17 kullanılarak geliştirilen bir web platformudu
 ## Demo Kullanımı
 
 Demo amaçlı erişim için, lütfen aşağıdaki bilgileri kullanın. Unutmayın ki, demo hesabı sınırlı yetkilere sahiptir ve yalnızca belirli işlevleri test etmek için tasarlanmıştır.
-Admin:
+
+### Admin
 - Kullanıcı Adı: admin@admin.com
 - Şifre: 1
-Doktor:
+
+### Doktor
 - Kullanıcı Adı: hkaya
 - Şifre: Password12*
 
