@@ -1,3 +1,4 @@
+@if(!loginUserIsDoctor && !loginUserIsPatient){
 <div class="form-group mt-2">
   <select (change)=" getDoctorAppointments()" class="form-control" [(ngModel)]="selectedDoctorId">
     <option value="">Select Doctor...</option>
@@ -6,8 +7,10 @@
     }
   </select>
 </div>
+}
 
-@if(!loginUserIsDoctor){
+
+@if(selectedDoctorId && loginUserIsPatient){
 <div class="form-group mt-2">
   <dx-scheduler 
   timeZone="Europe/Istanbul" 
@@ -22,6 +25,23 @@
   </dx-scheduler>
 </div>
 }
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-sm-4" *ngFor="let appointment of patientAppointments">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{appointment.doctorName}}</h5>
+          <p class="card-text">Uzmanlık Alanı: {{appointment.specialty}}</p>
+          <p class="card-text">Başlangıç Tarihi: {{appointment.startDate | date:'short'}}</p>
+          <p class="card-text">Bitiş Tarihi: {{appointment.endDate | date:'short'}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 <!-- Modal -->
 <div class="modal fade" id="addAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -60,7 +80,7 @@
           <div class="form-group mt-1">
             <label>First Name</label>
             <input type="text" class="form-control" required minlength="3" [(ngModel)]="addModel.patient.firstName"
-              name="firsName">
+              name="firstName">
             <div class="invalid-feedback"></div>
           </div>
           <div class="form-group mt-1">

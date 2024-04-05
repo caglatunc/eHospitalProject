@@ -97,6 +97,22 @@
   },
   {
     "ContainingType": "eHospitalServer.WebAPI.Controllers.AppointmentsController",
+    "Method": "GetAllAppointmentByPatientIdAsync",
+    "RelativePath": "api/Appointments/GetAllAppointmentByPatientId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "eHospitalServer.WebAPI.Controllers.AppointmentsController",
     "Method": "GetAllDoctors",
     "RelativePath": "api/Appointments/GetAllDoctors",
     "HttpMethod": "GET",

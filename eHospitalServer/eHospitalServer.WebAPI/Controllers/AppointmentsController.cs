@@ -48,6 +48,15 @@ public sealed class AppointmentsController(
         return StatusCode(response.StatusCode, response);
     }
 
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetAllAppointmentByPatientIdAsync(Guid patientId, CancellationToken cancellationToken)
+    {
+        var response = await appointmentService.GetAllAppointmentByPatientIdAsync(patientId, cancellationToken);
+
+        return StatusCode(response.StatusCode, response);
+    }
+
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> FindPatientByIdentityNumber(FindPatientDto request, CancellationToken cancellationToken)

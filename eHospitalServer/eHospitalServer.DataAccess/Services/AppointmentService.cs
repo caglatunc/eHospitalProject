@@ -8,6 +8,8 @@ using eHospitalServer.Entities.Repositories;
 using GenericRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.Linq;
+using System.Numerics;
 
 namespace eHospitalServer.DataAccess.Services;
 internal sealed class AppointmentService(
@@ -141,5 +143,30 @@ internal sealed class AppointmentService(
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result<string>.Succeed("Appointment deleted successfully.");
+    }
+    public async Task<Result<List<AppointmentDetailsDto>>> GetAllAppointmentByPatientIdAsync(Guid patientId, CancellationToken cancellationToken)
+    {
+        var appointments = await appointmentRepository
+           .GetWhere(a => a.PatientId == patientId)
+           .Include(a => a.Doctor)
+          .OrderBy(a => a.StartDate)
+          .ToListAsync(cancellationToken);
+
+        var appointmentDetails = appointments
+       .Select(a => new AppointmentDetailsDto(
+           AppointmentId: a.Id,
+           DoctorName: a.Doctor != null ? $"{a.Doctor.FirstName} {a.Doctor.LastName}" : "Bilinmeyen Doktor",
+           Specialty: a.Doctor?.DoctorDetail != null ? a.Doctor.DoctorDetail.Specialty : Specialty.GeneralMedicine, // Specialty enum varsayılan değer
+           StartDate: a.StartDate,
+           EndDate: a.EndDate
+       )).ToList();
+
+        if (appointmentDetails.Count == 0)
+        {
+            return Result<List<AppointmentDetailsDto>>.Failure("Appointment not found.");
+        }
+
+        return Result<List<AppointmentDetailsDto>>.Succeed(appointmentDetails);
+
     }
 }

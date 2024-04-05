@@ -52,6 +52,5 @@ public sealed class MappingProfile : Profile
             .ForMember(member => member.EndDate, options =>
                         options.MapFrom(src => DateTime.SpecifyKind(src.EndDate, DateTimeKind.Utc)))
             ;
-
     }
 }

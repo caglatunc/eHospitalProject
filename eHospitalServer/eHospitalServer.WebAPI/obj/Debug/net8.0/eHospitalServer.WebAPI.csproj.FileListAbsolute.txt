@@ -136,4 +136,3 @@ C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\Gene
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\FluentValidation.dll
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
 C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
-C:\eHospitalProject\eHospitalServer\eHospitalServer.WebAPI\obj\Debug\net8.0\eHospitalServer.WebAPI.MvcApplicationPartsAssemblyInfo.cs

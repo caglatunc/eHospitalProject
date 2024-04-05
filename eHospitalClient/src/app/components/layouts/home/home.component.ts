@@ -6,7 +6,7 @@ import { DxSchedulerModule } from 'devextreme-angular';
 import { FormValidateDirective } from 'form-validate-angular';
 
 import { UserModel } from '../../../models/user.model';
-import { AppointmentModel } from '../../../models/appointment.modeL';
+import { AppointmentModel, getPatientAppointmentsDetailModel } from '../../../models/appointment.modeL';
 import { ResultModel } from '../../../models/result.model';
 import { AppointmentDataModel } from '../../../models/appointment-data.model';
 import { AuthService } from '../../../services/auth.service';
@@ -29,13 +29,16 @@ export class HomeComponent implements OnInit {
 
   appointmentsData: any[] = [];
   selectedDoctorId: string = "";
+  selectedPatientId: string = "";
   currentDate: Date = new Date();
   doctors: UserModel[] = [];
+  patientAppointments: getPatientAppointmentsDetailModel[] = [];
 
   addModel: AppointmentModel = new AppointmentModel();
   appointmentData: AppointmentDataModel = new AppointmentDataModel();
 
   loginUserIsDoctor : boolean = false;
+  loginUserIsPatient : boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -44,12 +47,19 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+  
+    
     if(this.auth.user.userType === "Doctor"){
       this.loginUserIsDoctor = true;
       this.selectedDoctorId = this.auth.user.userId;
       this.getDoctorAppointments();
     }
-    else if(this.auth.user.userType === "Patient"){
+    debugger;
+   if(this.auth.user.userType === "Patient"){
+      this.loginUserIsPatient = true;
+      this.selectedPatientId = this.auth.user.userId;
+      this.getPatientAppointments();
       //Hastaya özel bir ekran göstermemiz lazım.Hastaya takvim yerine liste gösterilebilir.Card şeklinde.
     }
     else{
@@ -61,6 +71,27 @@ export class HomeComponent implements OnInit {
     this.http.get("https://localhost:7204/api/Appointments/GetAllDoctors").subscribe((res: any) => {
       this.doctors = res.data
     })
+  }
+
+  getPatientAppointments() {
+    if (this.auth.user.userId === "") return;
+
+    this.http.get(`https://localhost:7204/api/Appointments/GetAllAppointmentByPatientId?patientId=${this.auth.user.userId}`).subscribe
+    ((res: any) =>{
+      console.log(res.data);
+
+      const data = res.data.map((val: any, i: number)=>{
+        return{
+          id: val.id,
+          doctorName: val.doctor?.fullName,
+          startDate: new Date(val.startDate),
+          endDate: new Date(val.endDate),
+          status: val.status
+        }
+      });
+      this.appointmentsData = data;
+    })
+
   }
 
   getDoctorAppointments() {

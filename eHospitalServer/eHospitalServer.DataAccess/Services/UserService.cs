@@ -32,7 +32,7 @@ public sealed class UserService(
                 return Result<string>.Failure(StatusCodes.Status409Conflict, "IdentityNumber is already exist.");
             }
         }
-
+        //Create user
         User user = mapper.Map<User>(request);
 
             bool isUserNameExist = await userManager.Users.AnyAsync(p => p.UserName == user.UserName);
