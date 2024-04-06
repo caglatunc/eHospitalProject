@@ -2,7 +2,7 @@
 
 ## Proje Hakkında
 
-e-Hospital, .NET 8 ve Angular 17 kullanılarak geliştirilen bir web platformudur. Kullanıcıların rolüne göre dinamik olarak değişen içeriği ile doktorlar kendi randevularını görebilirken, yöneticiler doktor seçimi yaparak hastalar için randevu oluşturabilirler. Sistem, güvenliği ve kullanıcı deneyimini ön planda tutarak JWT tabanlı kimlik doğrulama, refresh token mekanizması ve e-posta onayı gibi özellikler ile desteklenmiştir.
+e-Hospital, .NET 8 ve Angular 17 kullanılarak geliştirilen bir web platformudur. Kullanıcıların rolüne göre dinamik olarak değişen içeriği ile doktorlar ve hastalar kendi randevularını görebilirken, yöneticiler doktor seçimi yaparak hastalar için randevu oluşturabilirler. Sistem, güvenliği ve kullanıcı deneyimini ön planda tutarak JWT tabanlı kimlik doğrulama, refresh token mekanizması ve e-posta onayı gibi özellikler ile desteklenmiştir.
 
 ## Özellikler
 
