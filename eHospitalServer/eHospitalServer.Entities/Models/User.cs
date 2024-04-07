@@ -28,5 +28,4 @@ public sealed class User : IdentityUser<Guid>
     [ForeignKey("DoctorDetail")]
     public Guid? DoctorDetailId { get; set; }
     public DoctorDetail? DoctorDetail { get; set; }
-
 }

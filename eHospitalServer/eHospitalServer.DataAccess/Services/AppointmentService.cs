@@ -6,10 +6,9 @@ using eHospitalServer.Entities.Enums;
 using eHospitalServer.Entities.Models;
 using eHospitalServer.Entities.Repositories;
 using GenericRepository;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Numerics;
 
 namespace eHospitalServer.DataAccess.Services;
 internal sealed class AppointmentService(
@@ -147,26 +146,21 @@ internal sealed class AppointmentService(
     public async Task<Result<List<AppointmentDetailsDto>>> GetAllAppointmentByPatientIdAsync(Guid patientId, CancellationToken cancellationToken)
     {
         var appointments = await appointmentRepository
-           .GetWhere(a => a.PatientId == patientId)
-           .Include(a => a.Doctor)
-          .OrderBy(a => a.StartDate)
-          .ToListAsync(cancellationToken);
+        .GetWhere(p => p.PatientId == patientId)
+        .Include(p => p.Doctor)
+        .ThenInclude(d => d!.DoctorDetail)
+        .ToListAsync(cancellationToken);
 
-        var appointmentDetails = appointments
-       .Select(a => new AppointmentDetailsDto(
-           AppointmentId: a.Id,
-           DoctorName: a.Doctor != null ? $"{a.Doctor.FirstName} {a.Doctor.LastName}" : "Bilinmeyen Doktor",
-           Specialty: a.Doctor?.DoctorDetail != null ? a.Doctor.DoctorDetail.Specialty : Specialty.GeneralMedicine, // Specialty enum varsayılan değer
-           StartDate: a.StartDate,
-           EndDate: a.EndDate
-       )).ToList();
+        var patientAppointments = appointments
+            .Select(p => new AppointmentDetailsDto(
+                p.Id,
+                p.Doctor!.FullName,
+                p.Doctor!.DoctorDetail!.SpecialtyName,
+                p.StartDate,
+                p.EndDate,
+                p.IsItFinished))
+            .OrderBy(dto => dto.StartDate).ToList();
 
-        if (appointmentDetails.Count == 0)
-        {
-            return Result<List<AppointmentDetailsDto>>.Failure("Appointment not found.");
-        }
-
-        return Result<List<AppointmentDetailsDto>>.Succeed(appointmentDetails);
-
+        return Result<List<AppointmentDetailsDto>>.Succeed(patientAppointments);
     }
 }

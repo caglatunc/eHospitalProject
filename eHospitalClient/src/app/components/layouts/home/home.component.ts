@@ -1,15 +1,17 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { DxSchedulerModule } from 'devextreme-angular';
+import { DxSchedulerModule, DxTreeListModule } from 'devextreme-angular';
 import { FormValidateDirective } from 'form-validate-angular';
 
 import { UserModel } from '../../../models/user.model';
-import { AppointmentModel, getPatientAppointmentsDetailModel } from '../../../models/appointment.modeL';
+import { AppointmentModel } from '../../../models/appointment.modeL';
 import { ResultModel } from '../../../models/result.model';
 import { AppointmentDataModel } from '../../../models/appointment-data.model';
 import { AuthService } from '../../../services/auth.service';
+import { PatientAppointmentModel } from '../../../models/patient-appointment.model';
+
 
 declare const $: any;
 
@@ -20,7 +22,8 @@ declare const $: any;
     DxSchedulerModule,
     FormsModule,
     CommonModule,
-    FormValidateDirective
+    FormValidateDirective,
+    DxTreeListModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -32,39 +35,96 @@ export class HomeComponent implements OnInit {
   selectedPatientId: string = "";
   currentDate: Date = new Date();
   doctors: UserModel[] = [];
-  patientAppointments: getPatientAppointmentsDetailModel[] = [];
+  patientAppointmentModel: PatientAppointmentModel[] = [];
 
   addModel: AppointmentModel = new AppointmentModel();
   appointmentData: AppointmentDataModel = new AppointmentDataModel();
 
-  loginUserIsDoctor : boolean = false;
-  loginUserIsPatient : boolean = false;
+  loginUserIsDoctor: boolean = false;
+  loginUserIsPatient: boolean = false;
+
+  showAppointments: boolean = false; // Randevu listesini gösterip göstermeme durumu
+
+  selectedAppointment: any = null;
+  epicrisisReport: string = '';
 
   constructor(
     private http: HttpClient,
     private auth: AuthService
-  ) { }
+  ) { 
+   
+  }
 
 
   ngOnInit(): void {
 
-  
-    
-    if(this.auth.user.userType === "Doctor"){
+
+    if (this.auth.user.userType === "Doctor") {
       this.loginUserIsDoctor = true;
       this.selectedDoctorId = this.auth.user.userId;
       this.getDoctorAppointments();
     }
     debugger;
-   if(this.auth.user.userType === "Patient"){
+    if (this.auth.user.userType === "Patient") {
       this.loginUserIsPatient = true;
       this.selectedPatientId = this.auth.user.userId;
       this.getPatientAppointments();
       //Hastaya özel bir ekran göstermemiz lazım.Hastaya takvim yerine liste gösterilebilir.Card şeklinde.
     }
-    else{
+    else {
       this.getAllDoctors();
     }
+
+  }
+
+  onAppointmentClick(event: any) {
+    const appointmentData = event.appointmentData;
+  
+  // Randevu zaten tamamlanmışsa veya epikriz raporu zaten varsa
+  if (appointmentData.isItFinished) {
+    alert('This appointment has already been completed.');
+    return;
+  } 
+    this.selectedAppointment = appointmentData;
+    this.showCompleteModal();
+  
+  }
+
+  // Modalı gösterme işlevi
+  showCompleteModal(): void {
+    $('#completeAppointmentModal').modal('show');
+  }
+
+  closeCompleteModal(): void {
+    $('#completeAppointmentModal').modal('hide');
+  }
+
+  completeAppointment(form: NgForm) {
+    if (form.valid && this.selectedAppointment ) {
+
+      //const result = confirm('Are you sure you want to complete this appointment?');
+      const appointmentId = this.selectedAppointment.id;
+      const report = this.epicrisisReport;
+      this.http.post(`https://localhost:7204/api/Appointments/CompleteAppointment`, {
+        appointmentId: appointmentId,
+        epicrisisReport: report
+      }).subscribe({
+        next: (response) => {
+          this.closeCompleteModal();
+        },
+        error: (error) => {
+          console.error('Error completing appointment:', error);
+          // Hata mesajı göster
+          alert('An error occurred while completing the appointment.');
+        }
+      });
+    }
+     
+  }
+
+  // Hastanın Randevu listesini gösterip göstermeme durumunu değiştirir
+  toggleAppointmentsDisplay(): void {
+    this.showAppointments = !this.showAppointments;
   }
 
   getAllDoctors() {
@@ -74,24 +134,20 @@ export class HomeComponent implements OnInit {
   }
 
   getPatientAppointments() {
-    if (this.auth.user.userId === "") return;
+    if (this.selectedPatientId === "") return;
 
-    this.http.get(`https://localhost:7204/api/Appointments/GetAllAppointmentByPatientId?patientId=${this.auth.user.userId}`).subscribe
-    ((res: any) =>{
-      console.log(res.data);
-
-      const data = res.data.map((val: any, i: number)=>{
-        return{
-          id: val.id,
-          doctorName: val.doctor?.fullName,
-          startDate: new Date(val.startDate),
-          endDate: new Date(val.endDate),
-          status: val.status
-        }
-      });
-      this.appointmentsData = data;
-    })
-
+    this.http.get(`https://localhost:7204/api/Appointments/GetAllAppointmentByPatientId?patientId=${this.selectedPatientId}`).subscribe
+    ((res: any) => {
+      this.patientAppointmentModel = res.data.map((appointment: any) => ({
+        id: appointment.appointmentId,
+        doctorName: appointment.doctorName,
+        doctorSpecialty: appointment.doctorSpecialty,
+        startDate: new Date(appointment.startDate),
+        endDate: new Date(appointment.endDate),
+        status: appointment.isItFinished ? 'Completed' : 'In Progress'
+      }));
+      console.log(this.patientAppointmentModel);
+    });
   }
 
   getDoctorAppointments() {
@@ -107,11 +163,13 @@ export class HomeComponent implements OnInit {
             id: val.id,
             text: val.patient.fullName,
             startDate: new Date(val.startDate),
-            endDate: new Date(val.endDate)
+            endDate: new Date(val.endDate),
+            isItFinished: val.isItFinished,
           }
         })
         this.appointmentsData = data;
-      })
+        console.log(this.appointmentsData);
+      });
   }
 
   onAppointmentFormOpening(event: any) {
@@ -149,7 +207,7 @@ export class HomeComponent implements OnInit {
         this.addModel = new AppointmentModel();
       })
     }
-    $("#addAppointmentModal").modal('hide'); 
+    $("#addAppointmentModal").modal('hide');
   }
 
 
@@ -164,15 +222,15 @@ export class HomeComponent implements OnInit {
   }
 
   onAppointmentDeleting(event: any) {
-   event.cancel = true;
-   const result = confirm("Are you sure you want to delete this appointment?");
+    event.cancel = true;
+    const result = confirm("Are you sure you want to delete this appointment?");
 
-   if(result){
-    const id = event.appointmentData.id;
-    this.http.get(`https://localhost:7204/api/Appointments/DeleteById?id=${id}`)
-    .subscribe((res: any) => {	
-      this.getDoctorAppointments();
-    });
-   }
+    if (result) {
+      const id = event.appointmentData.id;
+      this.http.get(`https://localhost:7204/api/Appointments/DeleteById?id=${id}`)
+        .subscribe((res: any) => {
+          this.getDoctorAppointments();
+        });
+    }
   }
 }

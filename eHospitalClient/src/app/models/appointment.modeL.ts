@@ -1,4 +1,4 @@
-import { Specialty, UserModel } from "./user.model";
+import {UserModel } from "./user.model";
 
 export class AppointmentModel {
     id: string = "";
@@ -13,10 +13,3 @@ export class AppointmentModel {
     isItFinished: boolean = false;
 }
 
-export class getPatientAppointmentsDetailModel {
-    appointmentId: string = "";
-    doctorName: string = "";
-    specialty: Specialty = Specialty.GeneralMedicine; // Enum kullanımı
-    startDate: Date | string = new Date();
-    endDate: Date | string = new Date();
-}

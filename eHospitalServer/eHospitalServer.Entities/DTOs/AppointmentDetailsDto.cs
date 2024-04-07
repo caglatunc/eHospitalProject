@@ -4,6 +4,9 @@ namespace eHospitalServer.Entities.DTOs;
 public sealed record AppointmentDetailsDto(
     Guid AppointmentId,
     string DoctorName,
-    Specialty Specialty,
+    string DoctorSpecialty,
     DateTime StartDate,
-    DateTime EndDate);
+    DateTime EndDate,
+    bool IsItFinished);
+
+

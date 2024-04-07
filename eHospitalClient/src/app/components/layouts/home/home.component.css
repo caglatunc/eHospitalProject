@@ -47,3 +47,69 @@
     font-weight: bold; /* Başlık font kalınlığını ayarla */
   }
   
+  /* Patients's AppointmentDetails */
+  .appointment-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .card {
+    width: 100%; /* Responsive tasarım için % cinsinden genişlik */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden; /* Yuvarlak köşeleri korumak için */
+  }
+  
+  .card-header {
+    font-size: 1.2em;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-title,
+  .card-subtitle {
+    margin-bottom: 10px;
+  }
+  
+  .card-text > div {
+    margin-bottom: 5px;
+  }
+  
+  .text-warning {
+    color: #ffc107 !important; /* Bootstrap renklerini kullanarak */
+  }
+  
+  .text-success {
+    color: #28a745 !important; /* Bootstrap renklerini kullanarak */
+  }
+   /* Patients's AppointmentDetails End*/
+
+   /* patient-appointment.component.css */
+.dx-tree-list .dx-data-row .doctor-image-cell img {
+  border-radius: 50%;
+  height: 40px; /* Resmin yüksekliği */
+  width: 40px; /* Resmin genişliği */
+  object-fit: cover; /* Resmi orantılı bir şekilde sığdır */
+}
+
+
+/* Randevularım düğmesini stilleyin */
+.myAppointments-btn {
+  margin-top: 20px; /* Navbar ile arasında boşluk oluşturmak için */
+  padding: 10px 20px; /* Düğmeye iç boşluk (padding) ekleyin */
+  background-color: #0084ff; /* Bootstrap mavi rengi gibi */
+  color: white;
+  border: none;
+  border-radius: 5px; /* Kenarları yuvarlak yapın */
+  cursor: pointer;
+  font-size: 16px; /* Yazı boyutunu ayarlayın */
+}
+
+/* Düğme üzerine gelindiğinde arka plan rengini değiştirin */
+.myAppointments-btn:hover {
+  background-color: #0056b3;
+}

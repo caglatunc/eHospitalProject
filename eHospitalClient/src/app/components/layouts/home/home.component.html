@@ -10,37 +10,60 @@
 }
 
 
-@if(selectedDoctorId && loginUserIsPatient){
+@if(selectedDoctorId){
 <div class="form-group mt-2">
-  <dx-scheduler 
-  timeZone="Europe/Istanbul" 
-  [dataSource]="appointmentsData"
-    [views]="['day', 'week', 'workWeek', 'month']" 
-    currentView="week" 
-    [currentDate]="currentDate" 
-    [startDayHour]="9"
-    [height]="730" 
-    (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
-    (onAppointmentDeleting)="onAppointmentDeleting($event)">
+  <dx-scheduler timeZone="Europe/Istanbul" [dataSource]="appointmentsData"
+    [views]="['day', 'week', 'workWeek', 'month']" currentView="week" [currentDate]="currentDate" [startDayHour]="9"
+    [height]="730" (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
+    (onAppointmentDeleting)="onAppointmentDeleting($event)"
+    (onAppointmentClick)="onAppointmentClick($event)">
   </dx-scheduler>
 </div>
 }
 
-<div class="container mt-3">
-  <div class="row">
-    <div class="col-sm-4" *ngFor="let appointment of patientAppointments">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{appointment.doctorName}}</h5>
-          <p class="card-text">Uzmanlık Alanı: {{appointment.specialty}}</p>
-          <p class="card-text">Başlangıç Tarihi: {{appointment.startDate | date:'short'}}</p>
-          <p class="card-text">Bitiş Tarihi: {{appointment.endDate | date:'short'}}</p>
+<!-- <div *ngIf="loginUserIsPatient">
+  <div class="appointment-card" *ngFor="let appointment of patientAppointmentModel">
+    <div class="card">
+      <div class="card-header bg-success text-white">
+        <h5 class="card-title mb-0">Branch: {{appointment.doctorSpecialty}}</h5>
+      </div>
+      <div class="card-body">
+        <h6 class="card-subtitle mb-2">Doctor: Dr. {{appointment.doctorName}}</h6>
+        <div class="card-text">
+          <div>Date: {{appointment.startDate | date: 'fullDate'}}</div>
+          <div>Time: {{appointment.startDate | date: 'shortTime'}} - {{appointment.endDate | date: 'shortTime'}}</div>
         </div>
+        <p class="mt-2" *ngIf="!appointment.isItFinished" class="text-warning">Status: Ongoing</p>
+        <p class="mt-2" *ngIf="appointment.isItFinished" class="text-success">Status: Completed</p>
       </div>
     </div>
   </div>
+</div> -->
+
+<div>
+  <button class="myAppointments-btn" (click)="toggleAppointmentsDisplay()">My Appointments</button>
 </div>
 
+<div *ngIf="showAppointments">
+<!-- patient-appointment.component.html -->
+<dx-tree-list [dataSource]="patientAppointmentModel" keyExpr="id" parentIdExpr="parentId" hasItemsExpr="hasItems">
+  <dxo-selection mode="single"></dxo-selection>
+  <!-- Doktor Adı ve Resmi için Sütun -->
+  <dxi-column dataField="doctorName" caption="Assigned">
+    <div *dxTemplate="let doctor of doctors">
+      <img src="{{ doctor.profileImageUrl }}" style="height: 32px; width: 32px; border-radius: 50%; object-fit: cover; margin-right: 8px;">
+      {{ doctor.doctorName }}
+    </div>
+  </dxi-column>
+
+  <dxi-column dataField="doctorSpecialty" caption="Specialty" [minWidth]="200"></dxi-column>
+  <dxi-column dataField="startDate" caption="Start Date" [width]="200" dataType="date"
+    format="dd.MM.yyyy HH:mm"></dxi-column>
+  <dxi-column dataField="endDate" caption="End Date" [width]="200" dataType="date"
+    format="dd.MM.yyyy HH:mm"></dxi-column>
+  <dxi-column dataField="status" caption="Status" width="200"></dxi-column>
+</dx-tree-list>
+</div>
 
 
 <!-- Modal -->
@@ -98,7 +121,7 @@
           <div class="form-group mt-1">
             <label>Email</label>
             <input type="email" class="form-control" [(ngModel)]="addModel.patient.email" name="email">
-        </div>
+          </div>
           <div class="form-group mt-1">
             <label>Date of Birth</label>
             <input type="date" class="form-control" [(ngModel)]="addModel.patient.dateOfBirth" name="dateOfBirth">
@@ -115,3 +138,29 @@
     </div>
   </div>
 </div>
+
+<!-- Randevu Tamamlama Modalı -->
+<div class="modal fade" id="completeAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="completeAppointmentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Complete Appointment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form #completeForm="ngForm" (ngSubmit)="completeAppointment(completeForm)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="epicrisisReport">Epicrisis Report</label>
+            <textarea id="epicrisisReport" class="form-control" [(ngModel)]="epicrisisReport" name="epicrisisReport" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Complete Appointment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
