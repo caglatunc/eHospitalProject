@@ -36,4 +36,7 @@ Demo amaçlı erişim için, lütfen aşağıdaki bilgileri kullanın. Unutmayı
 - Kullanıcı Adı: hkaya
 - Şifre: Password12*
 
+7 Nisan 
+  -Tamamlanan randevuların ekranda statues değişmesi (Tamamlanan randevular ekrana düşmüyor?)
+
 
