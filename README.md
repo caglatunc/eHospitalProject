@@ -17,6 +17,7 @@ e-Hospital is a web platform developed using .NET 8 and Angular 17. It dynamical
 - **Backend**: .NET 8
 - **Database**: PostgreSQL
 - **Authentication**: JWT (JSON Web Tokens), Refresh Token
+-  NTierArchitecture
 -  Options Pattern
 -  Result Pattern
 
