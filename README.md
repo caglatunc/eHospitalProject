@@ -37,6 +37,8 @@ For demo purposes, please use the following credentials. Note that the demo acco
 - Username: hkaya
 - Password: Password12*
 
+## Project Screenshots
+
 ![image](https://github.com/caglatuncsavas/eHospitalProject/assets/95507765/46423161-c442-44ab-8ffb-1ab753a6cd1e)
 
 ![image](https://github.com/caglatuncsavas/eHospitalProject/assets/95507765/aabfa34d-27dc-4cf5-9ed7-d46cea7ff1da)
